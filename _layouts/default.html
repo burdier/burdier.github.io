@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }}</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #fdfdfd;
+        color: #111;
+        max-width: 650px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      header {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+      }
+      a {
+        color: #0645ad;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post {
+        margin-bottom: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+    </header>
+    {{ content }}
+  </body>
+</html>
