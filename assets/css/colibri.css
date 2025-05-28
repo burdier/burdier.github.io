@@ -18,7 +18,7 @@
   left: 20px;        /* Ajusta horizontalmente */
   width: 150px;      /* Tamaño de la flor */
   height: 150px;
-  background-image: url('/assets/img/flor.gif'); /* Cambia ruta a tu gif */
+  background-image: url('/assets/img/flower.gif'); /* Cambia ruta a tu gif */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
