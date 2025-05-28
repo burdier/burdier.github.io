@@ -79,5 +79,23 @@
     <div id="colibri"></div>
     <div id="flor-fondo"></div>
 </div>
+
+
+    <div id="visitas-container">
+  👁️ <span id="stats">0</span> visitas
+</div>
+
+<script>
+  let r = new XMLHttpRequest();
+  r.addEventListener('load', function () {
+    const data = JSON.parse(this.responseText);
+    document.querySelector('#stats').innerText = data.count;
+  });
+
+  const path = window.goatcounter.get_data()['p'];
+  r.open('GET', 'https://don3b.goatcounter.com/counter/' + encodeURIComponent(path) + '.json');
+  r.send();
+</script>
+
   </body>
 </html>
