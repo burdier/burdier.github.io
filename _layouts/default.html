@@ -78,6 +78,15 @@
 
     <div id="colibri"></div>
     <div id="flor-fondo"></div>
-
+<script>
+    var t = setInterval(function() {
+        if (window.goatcounter && window.goatcounter.visit_count) {
+            clearInterval(t)
+            window.goatcounter.visit_count({append: 'body'})
+        }
+    }, 100)
+</script>
+<script data-goatcounter="https://don3b.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
