@@ -4,21 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const header = document.querySelector('header');
   const titles = Array.from(document.querySelectorAll('.post-title'));
-  const flor = document.getElementById('flor-fondo');
   let currentIndex = 0;
   let centerX = window.innerWidth / 2 - 40;
   let centerY = window.innerHeight / 2 - 40;
 
-  // Configuración de tamaño y escala
   const BASE_SIZE = 80;
   const MIN_SCALE = 0.6;
   const MAX_SCALE = 1.5;
   const MAX_HEADER_DISTANCE = 600;
-
-  // Rango para seguir mouse
   const FOLLOW_RADIUS = 200;
 
-  // Estilos iniciales del colibrí principal
   colibri.style.position = 'fixed';
   colibri.style.zIndex = '9999';
   colibri.style.width = BASE_SIZE + 'px';
@@ -31,158 +26,129 @@ document.addEventListener("DOMContentLoaded", () => {
   colibri.style.top = '0px';
   colibri.style.left = '0px';
 
-  // Variable de dirección
   let flipDirection = 1;
+  let isAnimating = false;
 
-  // Variables para control de estado y posición del mouse
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
-  let isAnimating = false;
-  let followMouseEnabled = false;
 
-  // Función para calcular escala basada en distancia al header
+  // Estado para controlar ciclos seguir mouse / random
+  let followMode = true;
+
+  // Función para escala según distancia al header
   const getScaleByHeaderDistance = (y) => {
     const headerRect = header?.getBoundingClientRect();
     if (!headerRect) return 1;
-
     const headerBottom = headerRect.bottom;
     const distance = Math.abs(y - headerBottom);
     const scale = MAX_SCALE - ((distance / MAX_HEADER_DISTANCE) * (MAX_SCALE - MIN_SCALE));
     return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
   };
 
-  const flyTo = (x, y, duration = 3, callback) => {
+  // Movimiento suave hacia punto (x,y)
+  const moveSmoothlyTo = (targetX, targetY) => {
+    const rect = colibri.getBoundingClientRect();
+    let currentX = rect.left;
+    let currentY = rect.top;
+
+    let dx = targetX - currentX;
+    let dy = targetY - currentY;
+
+    // Limitar movimiento suave con factor (más chico = más lento)
+    const factor = 0.07;
+
+    let newX = currentX + dx * factor;
+    let newY = currentY + dy * factor;
+
+    // Limitar dentro ventana
+    newX = Math.min(window.innerWidth - BASE_SIZE, Math.max(0, newX));
+    newY = Math.min(window.innerHeight - BASE_SIZE, Math.max(0, newY));
+
+    flipDirection = dx < 0 ? -1 : 1;
+
+    const scale = getScaleByHeaderDistance(newY);
+
+    colibri.style.left = newX + 'px';
+    colibri.style.top = newY + 'px';
+    colibri.style.transform = `scaleX(${flipDirection}) scale(${scale})`;
+  };
+
+  // Movimiento random suave para un tiempo random
+  const randomMovement = () => {
     isAnimating = true;
 
-    const currentX = parseFloat(colibri.style.left) || 0;
-    const currentY = parseFloat(colibri.style.top) || 0;
-    const direction = x < currentX ? -1 : 1;
-    flipDirection = direction;
+    // Generar un punto random dentro de ventana, con margen para que no salga
+    const targetX = Math.random() * (window.innerWidth - BASE_SIZE);
+    const targetY = Math.random() * (window.innerHeight - BASE_SIZE);
 
-    // Animación principal con GSAP
-    gsap.to(colibri, {
-      duration,
-      left: x + 'px',
-      top: y + 'px',
-      ease: "power1.inOut",
-      onUpdate: function () {
-        // Ajuste de escala durante el vuelo
-        const currentYPos = parseFloat(colibri.style.top);
-        const scale = getScaleByHeaderDistance(currentYPos);
-        colibri.style.transform = `scaleX(${direction}) scale(${scale})`;
-      },
-      onComplete: () => {
-        isAnimating = false;
-        if (callback) setTimeout(callback, 800);
+    // Duración random entre 1.5 y 3 segundos
+    const duration = 1.5 + Math.random() * 1.5;
+
+    return new Promise((resolve) => {
+      gsap.to(colibri, {
+        duration,
+        left: targetX,
+        top: targetY,
+        ease: "power1.inOut",
+        onUpdate: () => {
+          const currentX = parseFloat(colibri.style.left);
+          const currentY = parseFloat(colibri.style.top);
+          flipDirection = (targetX < currentX) ? -1 : 1;
+          const scale = getScaleByHeaderDistance(currentY);
+          colibri.style.transform = `scaleX(${flipDirection}) scale(${scale})`;
+        },
+        onComplete: () => {
+          isAnimating = false;
+          resolve();
+        }
+      });
+    });
+  };
+
+  // Ciclo principal de alternar entre seguir mouse y movimiento random
+  const mainLoop = async () => {
+    while (true) {
+      followMode = true;
+      // Seguir mouse 3 segundos
+      const followStart = performance.now();
+      while (performance.now() - followStart < 3000) {
+        if (!isAnimating) {
+          // Solo seguir mouse si está dentro radio
+          const rect = colibri.getBoundingClientRect();
+          const colibriX = rect.left + rect.width / 2;
+          const colibriY = rect.top + rect.height / 2;
+
+          const dx = mouseX - colibriX;
+          const dy = mouseY - colibriY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < FOLLOW_RADIUS) {
+            moveSmoothlyTo(mouseX - BASE_SIZE / 2, mouseY - BASE_SIZE / 2);
+          }
+        }
+        await new Promise(r => setTimeout(r, 16)); // ~60fps
       }
-    });
-  };
 
-  const goToTitle = () => {
-    if (isAnimating) return; // No interrumpir animación en curso
-    if (currentIndex >= titles.length) {
-      goToCenter();
-      return;
-    }
+      followMode = false;
+      // Movimiento random por un tiempo aleatorio entre 2 y 4 segundos
+      await randomMovement();
 
-    const title = titles[currentIndex];
-    const rect = title.getBoundingClientRect();
-    const x = Math.max(10, rect.left - BASE_SIZE - 10);
-    const y = Math.min(
-      window.innerHeight - BASE_SIZE - 10,
-      Math.max(10, rect.top + window.scrollY - BASE_SIZE / 2)
-    );
-
-    flyTo(x, y, 2, () => {
-      currentIndex++;
-      goToTitle();
-    });
-  };
-
-  const goToCenter = () => {
-    if (isAnimating) return;
-    flyTo(centerX, centerY, 3, () => {
-      goToFlor();
-    });
-  };
-
-  const goToFlor = () => {
-    if (isAnimating) return;
-    const x = 10;
-    const y = window.innerHeight - BASE_SIZE - 10;
-
-    flyTo(x, y, 3, () => {
-      currentIndex = 0;
-      setTimeout(goToTitle, 1500);
-    });
-  };
-
-  // Función para seguir mouse suavemente si está dentro del radio
-  const followMouse = () => {
-    if (isAnimating) return;
-
-    const rect = colibri.getBoundingClientRect();
-    const colibriX = rect.left + rect.width / 2;
-    const colibriY = rect.top + rect.height / 2;
-
-    const dx = mouseX - colibriX;
-    const dy = mouseY - colibriY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < FOLLOW_RADIUS) {
-      // Mover suavemente hacia mouse
-      let newX = rect.left + dx * 0.05;
-      let newY = rect.top + dy * 0.05;
-
-      // Limitar para que no se salga de ventana
-      newX = Math.min(window.innerWidth - BASE_SIZE, Math.max(0, newX));
-      newY = Math.min(window.innerHeight - BASE_SIZE, Math.max(0, newY));
-
-      const direction = dx < 0 ? -1 : 1;
-      flipDirection = direction;
-
-      const scale = getScaleByHeaderDistance(newY);
-
-      colibri.style.left = newX + 'px';
-      colibri.style.top = newY + 'px';
-      colibri.style.transform = `scaleX(${direction}) scale(${scale})`;
-
-      followMouseEnabled = true;
-    } else {
-      followMouseEnabled = false;
+      // Pausa entre movimientos random y volver a seguir mouse (0.5-1.5s)
+      await new Promise(r => setTimeout(r, 500 + Math.random() * 1000));
     }
   };
 
-  // Evento mousemove para actualizar posición del mouse
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
 
-  // Loop para actualizar posición según mouse o animación
-  function animationLoop() {
-    if (!isAnimating) {
-      followMouse();
-      if (!followMouseEnabled) {
-        // Si no sigue mouse, animación automática
-        if (!isAnimating) {
-          if (currentIndex >= titles.length) {
-            goToCenter();
-          } else {
-            goToTitle();
-          }
-        }
-      }
-    }
+  // Iniciar en centro
+  colibri.style.left = centerX + 'px';
+  colibri.style.top = centerY + 'px';
 
-    requestAnimationFrame(animationLoop);
-  }
+  mainLoop();
 
-  // Inicializar ciclo
-  goToTitle();
-  animationLoop();
-
-  // Ajustar posición central al redimensionar
   window.addEventListener('resize', () => {
     centerX = window.innerWidth / 2 - 40;
     centerY = window.innerHeight / 2 - 40;
