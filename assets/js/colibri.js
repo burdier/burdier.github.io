@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const flor = document.getElementById('flor-fondo');
   let currentIndex = 0;
   let centerX = window.innerWidth / 2 - 30;
-  let centerY = window.innerHeight / 3; // Más arriba
+  let centerY = window.innerHeight / 3;
 
-  // Crear clon invertido para simular giro suave
+  // Crear clon para el efecto suave de giro
   const colibriClone = colibri.cloneNode(true);
   colibriClone.id = 'colibri-clone';
   colibri.parentNode.appendChild(colibriClone);
@@ -26,21 +26,20 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   colibriClone.style.opacity = '0';
+  colibriClone.style.transition = 'opacity 0.2s ease';
 
   const flyTo = (x, y, callback) => {
     const currentX = colibri.getBoundingClientRect().left;
+    const currentY = colibri.getBoundingClientRect().top;
     const direction = x < currentX ? -1 : 1;
 
-    const midOffset = 20;
-    const offsetX = direction === 1 ? midOffset : -midOffset;
-
-    // Mostrar clon durante giro para efecto natural
-    colibriClone.style.opacity = '1';
+    // Posicionar el clon exactamente encima con leve offset
+    colibriClone.style.opacity = '0.3';
     colibriClone.style.transform = `scaleX(${direction})`;
-    colibriClone.style.left = `${currentX + offsetX}px`;
-    colibriClone.style.top = `${colibri.getBoundingClientRect().top}px`;
+    colibriClone.style.left = `${currentX + 4}px`;  // muy leve desplazamiento
+    colibriClone.style.top = `${currentY}px`;
 
-    // Flip del principal con retraso para realismo
+    // Flip del original
     gsap.to(colibri, {
       duration: 0.3,
       scaleX: direction,
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Trayectoria elevada y suavemente ondulada
+    // Vuelo elevado y natural
     const elevation = y - 100 < 50 ? 50 : y - 100;
     gsap.to(colibri, {
       duration: 2,
@@ -88,13 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const goToFlor = () => {
     const x = 10;
-    const y = window.innerHeight - 100; // ligeramente más alto
+    const y = window.innerHeight - 100;
     flyTo(x, y, () => {
       currentIndex = 0;
       goToTitle();
     });
   };
 
-  // Iniciar animación
   goToTitle();
 });
