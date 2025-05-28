@@ -2,156 +2,145 @@ document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
   if (!colibri) return;
 
-  const centerX = window.innerWidth / 2 - 30;
-  const centerY = window.innerHeight / 2 - 30;
-  const MAX_DISTANCE = 500;
+  const header = document.querySelector('header');
+  const titles = Array.from(document.querySelectorAll('.post-title'));
+  const flor = document.getElementById('flor-fondo');
+  let currentIndex = 0;
 
-  // Clon para efecto flip natural
-  const colibriClone = colibri.cloneNode(true);
-  colibriClone.style.position = 'fixed';
-  colibriClone.style.zIndex = '9998';
-  colibriClone.style.pointerEvents = 'none';
-  document.body.appendChild(colibriClone);
+  const BASE_SIZE = 80; // tamaño base en px
+  const MIN_SCALE = 0.6;
+  const MAX_SCALE = 1.5;
+  const MAX_HEADER_DISTANCE = 600; // px
 
-  // Configuración inicial
-  [colibri, colibriClone].forEach(el => {
-    el.style.position = 'fixed';
-    el.style.width = '60px';
-    el.style.height = '60px';
-    el.style.backgroundImage = "url('/assets/img/colibri.gif')";
-    el.style.backgroundSize = 'cover';
-    el.style.transformOrigin = 'center center';
-    el.style.transform = 'scaleX(1) scaleY(1)';
-    el.style.top = '0px';
-    el.style.left = '0px';
-  });
+  colibri.style.position = 'fixed';
+  colibri.style.zIndex = '9999';
+  colibri.style.width = BASE_SIZE + 'px';
+  colibri.style.height = BASE_SIZE + 'px';
+  colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
+  colibri.style.backgroundSize = 'cover';
+  colibri.style.pointerEvents = 'none';
+  colibri.style.transformOrigin = 'center center';
+  colibri.style.transform = 'scaleX(1) scaleY(1)';
+  colibri.style.top = '0px';
+  colibri.style.left = '0px';
 
-  let mouseX = centerX;
-  let mouseY = centerY;
-  let followingMouse = true;
+  // Para flip natural con duplicado pegado
+  let flipDirection = 1; // 1 = derecha, -1 = izquierda
 
-  const updateClone = () => {
-    const style = window.getComputedStyle(colibri);
-    colibriClone.style.left = style.left;
-    colibriClone.style.top = style.top;
-    colibriClone.style.transform = style.transform;
+  // Crear colibrí espejo para suavizar flip
+  let colibriCopy = colibri.cloneNode(true);
+  colibriCopy.id = "colibri-copy";
+  colibriCopy.style.position = 'fixed';
+  colibriCopy.style.zIndex = '9998';
+  colibriCopy.style.opacity = '0.6';
+  colibriCopy.style.pointerEvents = 'none';
+  document.body.appendChild(colibriCopy);
+
+  const setPosition = (x, y, scale, direction) => {
+    // Ajustamos posición y escala
+    colibri.style.transform = `scaleX(${direction}) scale(${scale})`;
+    colibri.style.left = `${x}px`;
+    colibri.style.top = `${y}px`;
+
+    // Colibri espejo pegado a la derecha (offset pequeño)
+    const offsetX = 8 * direction;
+    colibriCopy.style.transform = `scaleX(${-direction}) scale(${scale})`;
+    colibriCopy.style.left = `${x + offsetX}px`;
+    colibriCopy.style.top = `${y}px`;
   };
 
-  // Función para volar a una posición con animaciones
-  const flyTo = (x, y, duration = 2, callback) => {
+  // Escala según distancia vertical al header
+  const getScaleByHeaderDistance = (y) => {
+    const headerRect = header.getBoundingClientRect();
+    const headerBottom = headerRect.bottom;
+    const distance = Math.abs(y - headerBottom);
+    const scale = MAX_SCALE - ((distance / MAX_HEADER_DISTANCE) * (MAX_SCALE - MIN_SCALE));
+    return Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+  };
+
+  const flyTo = (x, y, duration = 5, callback) => {
     const rect = colibri.getBoundingClientRect();
     const currentX = rect.left;
+    const currentY = rect.top;
     const direction = x < currentX ? -1 : 1;
+    flipDirection = direction;
 
-    // Distancia para escala
-    const dx = x - centerX;
-    const dy = y - centerY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const scale = Math.min(1.3, Math.max(0.6, 1.3 - distance / 800));
+    const distanceY = y - currentY;
+    // Zigzag: más tiempo arriba, poco abajo, simulando vuelo natural
+    const midY = currentY + distanceY * 0.7 + (Math.sin(Math.random() * Math.PI * 2) * 20);
 
-    // Flip y escala
-    gsap.to([colibri, colibriClone], {
-      duration: 0.3,
-      scaleX: direction * scale,
-      scaleY: scale,
-      ease: "power1.out",
-      onUpdate: updateClone
-    });
+    // Calculamos escala inicial y final
+    const startScale = getScaleByHeaderDistance(currentY);
+    const endScale = getScaleByHeaderDistance(y);
 
-    // Timeline para movimiento
-    const tl = gsap.timeline({
-      onComplete: () => {
-        if (callback) callback();
-      }
-    });
-
-    tl.to([colibri, colibriClone], {
-      duration: duration,
-      x: x,
+    gsap.to({}, {
+      duration,
       ease: "power1.inOut",
-      onUpdate: updateClone
-    }, 0);
+      onUpdate: function () {
+        const progress = this.progress();
+        // Interpolamos la posición X, y con zigzag vertical
+        const currentPosX = currentX + (x - currentX) * progress;
+        const currentPosY = progress < 0.7
+          ? currentY + (midY - currentY) * (progress / 0.7)
+          : midY + (y - midY) * ((progress - 0.7) / 0.3);
+        // Interpolamos escala lineal
+        const currentScale = startScale + (endScale - startScale) * progress;
 
-    tl.to([colibri, colibriClone], {
-      duration: duration * 0.7,
-      y: y - 20, // más tiempo arriba
-      ease: "power1.out",
-      onUpdate: updateClone
-    }, 0);
-
-    tl.to([colibri, colibriClone], {
-      duration: duration * 0.3,
-      y: y,
-      ease: "power1.in",
-      onUpdate: updateClone
-    }, duration * 0.7);
-  };
-
-  // Movimiento random dentro de ventana
-  const randomMove = () => {
-    const x = Math.random() * (window.innerWidth - 60);
-    const y = Math.random() * (window.innerHeight - 60);
-    const duration = 2 + Math.random() * 2;
-    flyTo(x, y, duration, () => {
-      // Tras movimiento random espera y decide seguir mouse otra vez o seguir random
-      setTimeout(() => {
-        if (Math.random() < 0.5) {
-          followingMouse = true;
-        } else {
-          randomMove();
-        }
-      }, 1500);
+        setPosition(currentPosX, currentPosY, currentScale, direction);
+      },
+      onComplete: () => {
+        if (callback) setTimeout(callback, 1200);
+      }
     });
   };
 
-  // Loop que sigue al mouse dentro de un radio o se mueve random
-  const followLoop = () => {
-    if (followingMouse) {
-      // Calcula distancia del colibri al mouse
-      const rect = colibri.getBoundingClientRect();
-      const colX = rect.left;
-      const colY = rect.top;
-
-      const dx = mouseX - colX;
-      const dy = mouseY - colY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      // Si está lejos más de MAX_DISTANCE, mueve hacia el mouse pero dentro del radio
-      if (distance > MAX_DISTANCE) {
-        // calcula punto en la línea del colibri al mouse a MAX_DISTANCE
-        const angle = Math.atan2(dy, dx);
-        const targetX = colX + Math.cos(angle) * MAX_DISTANCE;
-        const targetY = colY + Math.sin(angle) * MAX_DISTANCE;
-        flyTo(targetX, targetY, 1, () => {
-          setTimeout(followLoop, 300);
-        });
-      } else {
-        // Si está dentro del radio, volar directamente al mouse (más lento)
-        flyTo(mouseX, mouseY, 1.5, () => {
-          setTimeout(followLoop, 300);
-        });
-      }
-      // Después de un rato deja de seguir el mouse y hace random
-      if (Math.random() < 0.02) { // 2% chance de hacer random
-        followingMouse = false;
-      }
-    } else {
-      randomMove();
+  const goToTitle = () => {
+    if (currentIndex >= titles.length) {
+      goToCenter();
+      return;
     }
+    const title = titles[currentIndex];
+    const rect = title.getBoundingClientRect();
+
+    // Posicionar colibri a la izquierda y un poco arriba del título (para que "se siente")
+    let x = Math.max(10, rect.left - BASE_SIZE - 10);
+    let y = rect.top + window.scrollY - BASE_SIZE / 2;
+
+    // Limitar que no se salga del viewport verticalmente
+    y = Math.min(window.innerHeight - BASE_SIZE - 10, Math.max(10, y));
+
+    flyTo(x, y, 5, () => {
+      currentIndex++;
+      goToTitle();
+    });
   };
 
-  // Actualiza posición del mouse
-  window.addEventListener('mousemove', e => {
-    mouseX = e.clientX - 30; // centrar el colibri
-    mouseY = e.clientY - 30;
-  });
+  const goToCenter = () => {
+    const x = centerX;
+    const y = centerY;
 
-  // Iniciar desde centro
-  gsap.set([colibri, colibriClone], {x: centerX, y: centerY});
-  followLoop();
+    flyTo(x, y, 6, () => {
+      goToFlor();
+    });
+  };
 
-  // Actualizar centro en resize
-  window.addEventListener('resize', () => {
-    // opcional: actualizar center si quieres que cambie según tamaño ventana
+  const goToFlor = () => {
+    const x = 10;
+    const y = window.innerHeight - BASE_SIZE - 10;
+
+    flyTo(x, y, 6, () => {
+      currentIndex = 0;
+      goToTitle();
+    });
+  };
+
+  // Iniciar animación
+  goToTitle();
+
+  // Evitar que se creen duplicados
+  window.addEventListener('beforeunload', () => {
+    if (colibriCopy && colibriCopy.parentNode) {
+      colibriCopy.parentNode.removeChild(colibriCopy);
+    }
   });
 });
