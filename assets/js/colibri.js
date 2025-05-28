@@ -1,43 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
   if (!colibri) return;
-  
+
   const titles = Array.from(document.querySelectorAll('.post-title'));
   const flor = document.getElementById('flor-fondo');
   let currentIndex = 0;
   let centerX = window.innerWidth / 2 - 30;
-  let centerY = window.innerHeight / 2 - 30;
+  let centerY = window.innerHeight / 3; // Más arriba
 
-  // Configuración inicial
-  colibri.style.position = 'fixed';
-  colibri.style.zIndex = '9999';
-  colibri.style.width = '60px';
-  colibri.style.height = '60px';
-  colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
-  colibri.style.backgroundSize = 'cover';
-  colibri.style.pointerEvents = 'none';
-  colibri.style.transformOrigin = 'center center';
-  colibri.style.transform = 'scaleX(1)'; // Orientación inicial (derecha)
+  // Crear clon invertido para simular giro suave
+  const colibriClone = colibri.cloneNode(true);
+  colibriClone.id = 'colibri-clone';
+  colibri.parentNode.appendChild(colibriClone);
+
+  // Estilos comunes
+  [colibri, colibriClone].forEach(el => {
+    el.style.position = 'fixed';
+    el.style.zIndex = '9999';
+    el.style.width = '60px';
+    el.style.height = '60px';
+    el.style.backgroundImage = "url('/assets/img/colibri.gif')";
+    el.style.backgroundSize = 'cover';
+    el.style.pointerEvents = 'none';
+    el.style.transformOrigin = 'center center';
+  });
+
+  colibriClone.style.opacity = '0';
 
   const flyTo = (x, y, callback) => {
     const currentX = colibri.getBoundingClientRect().left;
     const direction = x < currentX ? -1 : 1;
-    
-    // Flip horizontal
+
+    const midOffset = 20;
+    const offsetX = direction === 1 ? midOffset : -midOffset;
+
+    // Mostrar clon durante giro para efecto natural
+    colibriClone.style.opacity = '1';
+    colibriClone.style.transform = `scaleX(${direction})`;
+    colibriClone.style.left = `${currentX + offsetX}px`;
+    colibriClone.style.top = `${colibri.getBoundingClientRect().top}px`;
+
+    // Flip del principal con retraso para realismo
     gsap.to(colibri, {
       duration: 0.3,
       scaleX: direction,
-      ease: "power1.out"
+      ease: "power1.out",
+      onComplete: () => {
+        colibriClone.style.opacity = '0';
+      }
     });
 
-    // Movimiento
+    // Trayectoria elevada y suavemente ondulada
+    const elevation = y - 100 < 50 ? 50 : y - 100;
     gsap.to(colibri, {
       duration: 2,
       x: x,
-      y: y + Math.sin(Math.random() * Math.PI) * 30,
+      y: elevation + Math.sin(Math.random() * Math.PI) * 20,
       ease: "power1.inOut",
       onComplete: () => {
-        if (callback) setTimeout(callback, 1200);
+        if (callback) setTimeout(callback, 1000);
       }
     });
   };
@@ -51,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const title = titles[currentIndex];
     const rect = title.getBoundingClientRect();
     const x = rect.left - 60;
-    const y = rect.top + window.scrollY - 10;
+    const y = rect.top + window.scrollY - 20;
 
     flyTo(x, y, () => {
       currentIndex++;
@@ -67,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const goToFlor = () => {
     const x = 10;
-    const y = window.innerHeight - 80;
+    const y = window.innerHeight - 100; // ligeramente más alto
     flyTo(x, y, () => {
       currentIndex = 0;
       goToTitle();
