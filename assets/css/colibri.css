@@ -1,14 +1,15 @@
 #colibri {
-  position: absolute;
+  position: fixed;
   width: 150px;
   height: 150px;
   background-image: url('/assets/img/colibri.gif');
-  background-size: cover;
+  background-size: contain;
   pointer-events: none;
   z-index: 9999;
   transition: transform 2.5s ease-in-out;
   will-change: transform;
 }
+
 
 
 
