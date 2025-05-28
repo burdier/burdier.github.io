@@ -2,13 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
   if (!colibri) return;
 
-  const titles = Array.from(document.querySelectorAll('.post-title'));
-  const flor = document.getElementById('flor-fondo');
-  let currentIndex = 0;
-  let centerX = window.innerWidth / 2 - 30;
-  let centerY = window.innerHeight / 2 - 30;
+  const centerX = window.innerWidth / 2 - 30;
+  const centerY = window.innerHeight / 2 - 30;
+  const MAX_DISTANCE = 500;
 
-  // Crear clon para efecto flip intermedio
+  // Clon para efecto flip natural
   const colibriClone = colibri.cloneNode(true);
   colibriClone.style.position = 'fixed';
   colibriClone.style.zIndex = '9998';
@@ -28,7 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.left = '0px';
   });
 
-  // Actualizar clon según colibri principal
+  let mouseX = centerX;
+  let mouseY = centerY;
+  let followingMouse = true;
+
   const updateClone = () => {
     const style = window.getComputedStyle(colibri);
     colibriClone.style.left = style.left;
@@ -36,23 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
     colibriClone.style.transform = style.transform;
   };
 
-  const flyTo = (x, y, callback) => {
+  // Función para volar a una posición con animaciones
+  const flyTo = (x, y, duration = 2, callback) => {
     const rect = colibri.getBoundingClientRect();
     const currentX = rect.left;
-    const currentY = rect.top;
     const direction = x < currentX ? -1 : 1;
 
-    // Calcular distancia al centro para escala (min 0.6, max 1.3)
+    // Distancia para escala
     const dx = x - centerX;
     const dy = y - centerY;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const scale = Math.min(1.3, Math.max(0.6, 1.3 - distance / 800));
 
-    // Duración del vuelo proporcional a la distancia
-    const distBetween = Math.sqrt((x - currentX) ** 2 + (y - currentY) ** 2);
-    const duration = Math.min(4, Math.max(2, distBetween / 250));
-
-    // Flip horizontal + escala con gsap
+    // Flip y escala
     gsap.to([colibri, colibriClone], {
       duration: 0.3,
       scaleX: direction * scale,
@@ -61,16 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
       onUpdate: updateClone
     });
 
-    // Timeline para movimiento horizontal + vertical con subida lenta y bajada rápida
+    // Timeline para movimiento
     const tl = gsap.timeline({
       onComplete: () => {
-        setTimeout(() => {
-          if (callback) callback();
-        }, 1000);
+        if (callback) callback();
       }
     });
 
-    // Movimiento horizontal lineal
     tl.to([colibri, colibriClone], {
       duration: duration,
       x: x,
@@ -78,10 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
       onUpdate: updateClone
     }, 0);
 
-    // Movimiento vertical oscilante con subida lenta y bajada rápida
     tl.to([colibri, colibriClone], {
       duration: duration * 0.7,
-      y: y - 20, // más tiempo arriba (20px arriba)
+      y: y - 20, // más tiempo arriba
       ease: "power1.out",
       onUpdate: updateClone
     }, 0);
@@ -94,44 +87,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }, duration * 0.7);
   };
 
-  const goToTitle = () => {
-    if (currentIndex >= titles.length) {
-      goToCenter();
-      return;
+  // Movimiento random dentro de ventana
+  const randomMove = () => {
+    const x = Math.random() * (window.innerWidth - 60);
+    const y = Math.random() * (window.innerHeight - 60);
+    const duration = 2 + Math.random() * 2;
+    flyTo(x, y, duration, () => {
+      // Tras movimiento random espera y decide seguir mouse otra vez o seguir random
+      setTimeout(() => {
+        if (Math.random() < 0.5) {
+          followingMouse = true;
+        } else {
+          randomMove();
+        }
+      }, 1500);
+    });
+  };
+
+  // Loop que sigue al mouse dentro de un radio o se mueve random
+  const followLoop = () => {
+    if (followingMouse) {
+      // Calcula distancia del colibri al mouse
+      const rect = colibri.getBoundingClientRect();
+      const colX = rect.left;
+      const colY = rect.top;
+
+      const dx = mouseX - colX;
+      const dy = mouseY - colY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Si está lejos más de MAX_DISTANCE, mueve hacia el mouse pero dentro del radio
+      if (distance > MAX_DISTANCE) {
+        // calcula punto en la línea del colibri al mouse a MAX_DISTANCE
+        const angle = Math.atan2(dy, dx);
+        const targetX = colX + Math.cos(angle) * MAX_DISTANCE;
+        const targetY = colY + Math.sin(angle) * MAX_DISTANCE;
+        flyTo(targetX, targetY, 1, () => {
+          setTimeout(followLoop, 300);
+        });
+      } else {
+        // Si está dentro del radio, volar directamente al mouse (más lento)
+        flyTo(mouseX, mouseY, 1.5, () => {
+          setTimeout(followLoop, 300);
+        });
+      }
+      // Después de un rato deja de seguir el mouse y hace random
+      if (Math.random() < 0.02) { // 2% chance de hacer random
+        followingMouse = false;
+      }
+    } else {
+      randomMove();
     }
-
-    const title = titles[currentIndex];
-    const rect = title.getBoundingClientRect();
-    const x = rect.left - 60;
-    const y = rect.top + window.scrollY - 10;
-
-    flyTo(x, y, () => {
-      currentIndex++;
-      goToTitle();
-    });
   };
 
-  const goToCenter = () => {
-    flyTo(centerX, centerY, () => {
-      goToFlor();
-    });
-  };
+  // Actualiza posición del mouse
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX - 30; // centrar el colibri
+    mouseY = e.clientY - 30;
+  });
 
-  const goToFlor = () => {
-    const x = 10;
-    const y = window.innerHeight - 80;
-    flyTo(x, y, () => {
-      currentIndex = 0;
-      goToTitle();
-    });
-  };
+  // Iniciar desde centro
+  gsap.set([colibri, colibriClone], {x: centerX, y: centerY});
+  followLoop();
 
-  // Iniciar animación
-  goToTitle();
-
-  // Actualizar centro si se redimensiona ventana
+  // Actualizar centro en resize
   window.addEventListener('resize', () => {
-    centerX = window.innerWidth / 2 - 30;
-    centerY = window.innerHeight / 2 - 30;
+    // opcional: actualizar center si quieres que cambie según tamaño ventana
   });
 });
