@@ -1,10 +1,11 @@
 #colibri {
   position: absolute;
-  width: 80px;  /* o 100px si quieres más grande */
+  width: 80px;
   height: 80px;
   background-image: url('/assets/img/colibri.gif');
   background-size: cover;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 2s ease-in-out;
+  transition: transform 2.5s ease-in-out;
+  will-change: transform;
 }
