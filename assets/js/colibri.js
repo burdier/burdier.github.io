@@ -1,12 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
-  if (!colibri) return; // seguridad
+  if (!colibri) return;
+  
   const titles = Array.from(document.querySelectorAll('.post-title'));
   const flor = document.getElementById('flor-fondo');
   let currentIndex = 0;
   let centerX = window.innerWidth / 2 - 30;
   let centerY = window.innerHeight / 2 - 30;
 
+  // Configuración inicial
   colibri.style.position = 'fixed';
   colibri.style.zIndex = '9999';
   colibri.style.width = '60px';
@@ -14,20 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
   colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
   colibri.style.backgroundSize = 'cover';
   colibri.style.pointerEvents = 'none';
+  colibri.style.transformOrigin = 'center center';
+  colibri.style.transform = 'scaleX(1)'; // Orientación inicial (derecha)
 
   const flyTo = (x, y, callback) => {
-    const colX = colibri.getBoundingClientRect().left;
-    const direction = x < colX ? -1 : 1;
+    const currentX = colibri.getBoundingClientRect().left;
+    const direction = x < currentX ? -1 : 1;
+    
+    // Flip horizontal
+    gsap.to(colibri, {
+      duration: 0.3,
+      scaleX: direction,
+      ease: "power1.out"
+    });
+
+    // Movimiento
     gsap.to(colibri, {
       duration: 2,
       x: x,
       y: y + Math.sin(Math.random() * Math.PI) * 30,
       ease: "power1.inOut",
-      onStart: () => {
-        colibri.style.transform = `scaleX(${direction})`;
-      },
       onComplete: () => {
-        setTimeout(callback, 1200);
+        if (callback) setTimeout(callback, 1200);
       }
     });
   };
@@ -64,5 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Iniciar animación
   goToTitle();
 });
