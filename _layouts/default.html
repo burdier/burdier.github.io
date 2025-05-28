@@ -92,7 +92,7 @@
     document.querySelector('#stats').innerText = data.count;
   });
 
-  const path = window.goatcounter.get_data()['p'];
+  let path = 'TOTAL'; // 👈 esto muestra todas las visitas del sitio
   r.open('GET', 'https://don3b.goatcounter.com/counter/' + encodeURIComponent(path) + '.json');
   r.send();
 </script>
