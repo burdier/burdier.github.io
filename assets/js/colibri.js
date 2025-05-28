@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
   if (!colibri) return;
 
-  // Clon para efecto flip pegado (evita efecto fantasma)
+  // Crear clon para el efecto flip pegadito
   const colibriClone = colibri.cloneNode(true);
   colibriClone.style.position = 'fixed';
   colibriClone.style.top = '0';
@@ -12,31 +12,28 @@ document.addEventListener("DOMContentLoaded", () => {
   colibri.parentNode.appendChild(colibriClone);
 
   const titles = Array.from(document.querySelectorAll('.post-title'));
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
   let currentIndex = 0;
+  const centerX = window.innerWidth / 2 - 40; // Ajustado para tamaño base
+  const centerY = window.innerHeight / 2 - 40;
 
-  // Estilos base colibri
-  const baseWidth = 80; // base tamaño
+  // Tamaño base del colibri
+  const baseWidth = 80;
   const baseHeight = 80;
-  colibri.style.position = 'fixed';
-  colibri.style.zIndex = '9999';
-  colibri.style.width = baseWidth + 'px';
-  colibri.style.height = baseHeight + 'px';
-  colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
-  colibri.style.backgroundSize = 'contain';
-  colibri.style.backgroundRepeat = 'no-repeat';
-  colibri.style.pointerEvents = 'none';
-  colibri.style.transformOrigin = 'center center';
 
-  colibriClone.style.width = baseWidth + 'px';
-  colibriClone.style.height = baseHeight + 'px';
-  colibriClone.style.backgroundImage = "url('/assets/img/colibri.gif')";
-  colibriClone.style.backgroundSize = 'contain';
-  colibriClone.style.backgroundRepeat = 'no-repeat';
-  colibriClone.style.transformOrigin = 'center center';
+  // Configuración inicial colibri
+  [colibri, colibriClone].forEach(el => {
+    el.style.position = 'fixed';
+    el.style.zIndex = el === colibri ? '9999' : '9998';
+    el.style.width = baseWidth + 'px';
+    el.style.height = baseHeight + 'px';
+    el.style.backgroundImage = "url('/assets/img/colibri.gif')";
+    el.style.backgroundSize = 'contain';
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.pointerEvents = 'none';
+    el.style.transformOrigin = 'center center';
+  });
 
-  // Función para actualizar posición y tamaño del clon igual que el original
+  // Sincronizar clon con colibri
   function updateClone() {
     const rect = colibri.getBoundingClientRect();
     colibriClone.style.transform = colibri.style.transform;
@@ -46,24 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
     colibriClone.style.height = rect.height + 'px';
   }
 
-  // Animar vuelo con escala y flip natural + zigzag vertical
   const flyTo = (x, y, callback) => {
     const rect = colibri.getBoundingClientRect();
     const currentX = rect.left;
     const currentY = rect.top;
     const direction = x < currentX ? -1 : 1;
 
-    // Distancia al centro para escala (min 0.6, max 1.3)
+    // Calcular distancia al centro para escala (min 0.6, max 1.3)
     const dx = x - centerX;
     const dy = y - centerY;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const scale = Math.min(1.3, Math.max(0.6, 1.3 - distance / 800));
 
-    // Duración proporcional a la distancia para movimiento natural
+    // Duración del vuelo proporcional a la distancia
     const distBetween = Math.sqrt((x - currentX) ** 2 + (y - currentY) ** 2);
     const duration = Math.min(4, Math.max(2, distBetween / 250));
 
-    // Flip horizontal y escala con gsap (a colibri y su clon)
+    // Flip horizontal + escala con gsap
     gsap.to([colibri, colibriClone], {
       duration: 0.3,
       scaleX: direction * scale,
@@ -72,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       onUpdate: updateClone
     });
 
-    // Movimiento zigzag: y + seno oscilante para efecto de vuelo más natural
+    // Movimiento zigzag vertical (seno oscilante)
     gsap.to(colibri, {
       duration,
       x,
@@ -86,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Mismo movimiento para el clon (sin desfase de tiempo para evitar duplicados raros)
     gsap.to(colibriClone, {
       duration,
       x,
@@ -101,10 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
       goToCenter();
       return;
     }
+
     const title = titles[currentIndex];
     const rect = title.getBoundingClientRect();
-
-    // Posicionar un poco a la izquierda del título y centrado vertical en el texto
     const x = rect.left - baseWidth * 1.1 + window.scrollX;
     const y = rect.top + window.scrollY + rect.height / 2 - baseHeight / 2;
 
@@ -115,15 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const goToCenter = () => {
-    const x = centerX - baseWidth / 2;
-    const y = centerY - baseHeight / 2;
-    flyTo(x, y, () => {
+    flyTo(centerX, centerY, () => {
       goToFlor();
     });
   };
 
   const goToFlor = () => {
-    const x = 20; // cerca esquina inferior izquierda
+    const x = 20;
     const y = window.innerHeight - baseHeight - 20;
     flyTo(x, y, () => {
       currentIndex = 0;
@@ -131,19 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Iniciar vuelo
-  // Posicionamos colibri inicialmente en la flor
+  // Posicionar colibri y clon inicialmente en la flor
   colibri.style.left = '20px';
   colibri.style.top = (window.innerHeight - baseHeight - 20) + 'px';
   colibriClone.style.left = '20px';
   colibriClone.style.top = (window.innerHeight - baseHeight - 20) + 'px';
-  goToTitle();
 
-  // Actualizar posiciones al hacer scroll y resize
-  window.addEventListener('scroll', () => {
-    // Opcional: actualizar animación o pausar para que no se descontrole
-  });
-  window.addEventListener('resize', () => {
-    // Actualiza centro
-  });
+  // Iniciar animación
+  goToTitle();
 });
