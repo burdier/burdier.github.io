@@ -2,7 +2,7 @@
   position: fixed;
   width: 50px;
   height: 50px;
-  background-image: url('/assets/images/colibri.gif'); /* O usa un SVG animado */
+  background-image: url('/assets/img/colibri.gif'); /* O usa un SVG animado */
   background-size: cover;
   pointer-events: none;
   z-index: 9999;
