@@ -9,3 +9,20 @@
   transition: transform 2.5s ease-in-out;
   will-change: transform;
 }
+
+
+
+#flor-fondo {
+  position: fixed;
+  bottom: 20px;      /* Ajusta verticalmente */
+  left: 20px;        /* Ajusta horizontalmente */
+  width: 150px;      /* Tamaño de la flor */
+  height: 150px;
+  background-image: url('/assets/img/flor.gif'); /* Cambia ruta a tu gif */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;  /* Para que no interfiera con clicks */
+  z-index: 10;           /* Asegura que quede encima o debajo según necesites */
+  opacity: 0.8;          /* Opcional: un poco transparente */
+}
