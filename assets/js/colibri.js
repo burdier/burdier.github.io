@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const colibriHeight = 80;
   let currentPos = { x: 0, y: 0 };
   let isFirstMove = true;
+  let flightAnimation;
 
   function getRandomTitlePosition() {
     const titles = Array.from(document.querySelectorAll('h1, h2, h3'));
@@ -39,61 +40,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function moveColibriTo(targetPos, callback) {
-    const steps = 90;
-    let step = 0;
-
-    const startX = currentPos.x;
-    const startY = currentPos.y;
-
-    const deltaX = targetPos.x - startX;
-    const deltaY = targetPos.y - startY;
-
-    const facingRight = deltaX >= 0;
-    colibri.style.transition = 'transform 0.3s ease';
-    colibri.style.transform = `translate(${startX}px, ${startY}px) scaleX(${facingRight ? 1 : -1})`;
-
-    setTimeout(() => {
-      colibri.style.transition = '';
-
-      function animate() {
-        step++;
-        if (step > steps) {
-          currentPos = targetPos;
-          if (callback) callback();
-          return;
-        }
-
-        const t = step / steps;
-        const amplitude = 12;
-        const x = startX + deltaX * t;
-        let y = startY + deltaY * t + amplitude * Math.sin(6 * Math.PI * t);
-
-        // Clamping para evitar salir del viewport
-        const clampedX = Math.min(window.innerWidth - colibriWidth, Math.max(0, x));
-        const clampedY = Math.min(window.innerHeight - colibriHeight, Math.max(0, y));
-
-        colibri.style.transform = `translate(${clampedX}px, ${clampedY}px) scaleX(${facingRight ? 1 : -1})`;
-        requestAnimationFrame(animate);
+    // Clear any existing animation
+    if (flightAnimation) flightAnimation.kill();
+    
+    const facingRight = targetPos.x >= currentPos.x;
+    
+    // Create more realistic flight path with GSAP
+    flightAnimation = gsap.to(colibri, {
+      x: targetPos.x,
+      y: targetPos.y,
+      duration: 2 + Math.random() * 1, // Random duration between 2-3 seconds
+      ease: "sine.inOut",
+      onUpdate: function() {
+        // Add subtle wing flapping effect
+        const waveHeight = 10;
+        const waveSpeed = 0.05;
+        const waveOffset = Math.sin(performance.now() * waveSpeed) * waveHeight;
+        gsap.set(colibri, { y: "+=" + waveOffset });
+        
+        // Update facing direction
+        gsap.set(colibri, { scaleX: facingRight ? 1 : -1 });
+      },
+      onComplete: function() {
+        currentPos = targetPos;
+        if (callback) callback();
       }
-
-      animate();
-    }, 300);
+    });
   }
 
   function flightCycle() {
     const nextPos = isFirstMove ? getCenterOfViewport() :
       (Math.random() > 0.5 ? getCornerPosition() : getRandomTitlePosition());
 
-    moveColibriTo(nextPos, () => {
-      setTimeout(flightCycle, 3000);
-    });
-
-    isFirstMove = false;
-  }
-
-  // Inicializar
-  const initPos = getCenterOfViewport();
-  currentPos = initPos;
-  colibri.style.transform = `translate(${initPos.x}px, ${initPos.y}px) scaleX(1)`;
-  setTimeout(flightCycle, 2000);
-});
+    moveColibriTo
