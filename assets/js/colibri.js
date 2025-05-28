@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   colibri.style.zIndex = '9999';
   colibri.style.width = '60px';
   colibri.style.height = '60px';
-  colibri.style.backgroundImage = "url('/assets/images/colibri.gif')";
+  colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
   colibri.style.backgroundSize = 'cover';
   colibri.style.pointerEvents = 'none';
 
