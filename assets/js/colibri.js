@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
-  let currentPos = { x: 0, y: 0 };
-  let isFirstMove = true;
   const colibriWidth = 80;
   const colibriHeight = 80;
+  let currentPos = { x: 0, y: 0 };
+  let isFirstMove = true;
 
   function getRandomTitleElement() {
     const titles = Array.from(document.querySelectorAll('h1, h2, h3'));
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let x = rect.left + scrollLeft + rect.width / 2 - colibriWidth / 2;
     let y = rect.top + scrollTop - colibriHeight - 10;
 
+    // Limitar para que no salga del viewport visible
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const maxX = scrollLeft + viewportWidth - colibriWidth;
@@ -33,7 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return { x, y };
   }
 
-  // Posición fija de la esquina inferior izquierda (donde está la flor)
+  function getCenterOfViewport() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    return {
+      x: scrollLeft + viewportWidth / 2 - colibriWidth / 2,
+      y: scrollTop + viewportHeight / 2 - colibriHeight / 2
+    };
+  }
+
   function getCornerPosition() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
@@ -41,13 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewportHeight = window.innerHeight;
 
     return {
-      x: scrollLeft + 20,                          // margen 20px desde la izquierda
-      y: scrollTop + viewportHeight - colibriHeight - 20 // margen 20px desde abajo
+      x: scrollLeft + 20,
+      y: scrollTop + viewportHeight - colibriHeight - 20
     };
   }
 
   function moveColibriTo(targetPos, callback) {
-    const steps = 60;
+    const steps = 90; // vuelo un poco más lento
     let step = 0;
 
     const startX = currentPos.x;
@@ -57,67 +69,72 @@ document.addEventListener("DOMContentLoaded", () => {
     const deltaY = targetPos.y - startY;
 
     const facingRight = deltaX >= 0;
-    const amplitude = 10;
 
-    function animate() {
-      step++;
-      if (step > steps) {
-        currentPos = targetPos;
-        if (callback) callback();
-        return;
+    // El colibrí gira hacia el destino antes de moverse
+    colibri.style.transition = 'transform 0.3s ease';
+    colibri.style.transform = `translate(${startX}px, ${startY}px) scaleX(${facingRight ? 1 : -1})`;
+
+    setTimeout(() => {
+      colibri.style.transition = ''; // quitar transición para animación frame a frame
+
+      const amplitude = 15; // más pronunciado zigzag vertical
+
+      function animate() {
+        step++;
+        if (step > steps) {
+          currentPos = targetPos;
+          if (callback) callback();
+          return;
+        }
+
+        const t = step / steps;
+
+        const x = startX + deltaX * t;
+        // Zigzag vertical con seno, frecuencia y amplitud
+        let y = startY + deltaY * t + amplitude * Math.sin(6 * Math.PI * t);
+
+        // Limitar dentro del viewport vertical
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const viewportHeight = window.innerHeight;
+        const minY = scrollTop;
+        const maxY = scrollTop + viewportHeight - colibriHeight;
+        if (y < minY) y = minY;
+        else if (y > maxY) y = maxY;
+
+        colibri.style.transform = `translate(${x}px, ${y}px) scaleX(${facingRight ? 1 : -1})`;
+
+        requestAnimationFrame(animate);
       }
 
-      const t = step / steps;
-
-      const x = startX + deltaX * t;
-      let y = startY + deltaY * t + amplitude * Math.sin(3 * Math.PI * t * 2);
-
-      // Limitar Y dentro viewport vertical
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const viewportHeight = window.innerHeight;
-      const minY = scrollTop;
-      const maxY = scrollTop + viewportHeight - colibriHeight;
-      if (y < minY) y = minY;
-      else if (y > maxY) y = maxY;
-
-      colibri.style.transform = `translate(${x}px, ${y}px) scaleX(${facingRight ? 1 : -1})`;
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
+      animate();
+    }, 300);
   }
 
-  // Ciclo: título → esquina inferior izquierda → otro título → ...
   function flightCycle() {
     const titles = Array.from(document.querySelectorAll('h1, h2, h3'));
     if (titles.length === 0) return;
 
-    // Primer destino: un título random
-    let targetTitle = titles[Math.floor(Math.random() * titles.length)];
-    let targetPos = getElementCenterPosition(targetTitle);
-
-    // Si es la primera vez, posicionar sin animar
     if (isFirstMove) {
-      currentPos = targetPos;
+      // Primera posición al centro del viewport, escala 1 mirando a la derecha
+      currentPos = getCenterOfViewport();
       colibri.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px) scaleX(1)`;
       isFirstMove = false;
-
-      // Después de 3s, inicia el ciclo completo
       setTimeout(flightCycle, 3000);
       return;
     }
 
+    // Elegir un título random
+    let targetTitle = titles[Math.floor(Math.random() * titles.length)];
+    let targetPos = getElementCenterPosition(targetTitle);
+
     // Mover al título
     moveColibriTo(targetPos, () => {
-      // Esperar 3 segundos posado
       setTimeout(() => {
-        // Luego volar a la esquina inferior izquierda (flor)
+        // Luego a la esquina inferior izquierda (flor)
         const cornerPos = getCornerPosition();
         moveColibriTo(cornerPos, () => {
-          // Esperar 3 segundos posado en la flor
           setTimeout(() => {
-            // Volar a otro título distinto al actual
+            // Volar a otro título distinto
             let nextTitle;
             do {
               nextTitle = titles[Math.floor(Math.random() * titles.length)];
@@ -125,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const nextPos = getElementCenterPosition(nextTitle);
             moveColibriTo(nextPos, () => {
-              // Repetir ciclo
               setTimeout(flightCycle, 3000);
             });
           }, 3000);
@@ -135,4 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   flightCycle();
+
+  // Ajustar posición si se hace scroll o resize
+  window.addEventListener('scroll', () => {
+    // Opcional: actualizar currentPos para que no se pierda el colibri
+  });
+  window.addEventListener('resize', () => {
+    // Opcional: ajustar posición actual para que no se pierda
+  });
 });
