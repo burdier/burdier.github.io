@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
+  if (!colibri) return; // seguridad
   const titles = Array.from(document.querySelectorAll('.post-title'));
   const flor = document.getElementById('flor-fondo');
   let currentIndex = 0;
