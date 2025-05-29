@@ -98,9 +98,79 @@
 </script>
 <div id="frase-container">
   <p id="frase-texto" style="font-style: italic;"></p>
-  <button id="like-btn">❤️ Like</button>
-  <span id="like-count"></span>
+  <div class="botones-container">
+    <button id="like-btn" class="btn-interactivo">❤️ Like</button>
+    <span id="like-count" class="contador"></span>
+    <button id="seguir-btn" class="btn-interactivo introspectivo">
+      <span class="texto">Seguir reflexionando...</span>
+      <span class="icono">🌱</span>
+    </button>
+  </div>
 </div>
+
+<style>
+  .botones-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .btn-interactivo {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  #like-btn {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  #like-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+  }
+  
+  .contador {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .introspectivo {
+    position: relative;
+    background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+    color: #2e7d32;
+    padding: 8px 20px 8px 15px;
+    overflow: hidden;
+  }
+  
+  .introspectivo .icono {
+    transition: all 0.5s ease;
+  }
+  
+  .introspectivo:hover {
+    background: linear-gradient(145deg, #e8f5e9, #c8e6c9);
+    animation: vibracion-sutil 0.3s linear;
+  }
+  
+  .introspectivo:hover .icono {
+    transform: rotate(10deg) scale(1.2);
+  }
+  
+  .introspectivo:active {
+    transform: scale(0.98);
+  }
+  
+  @keyframes vibracion-sutil {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px); }
+    75% { transform: translateX(1px); }
+  }
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -110,13 +180,14 @@
     const fraseTexto = document.getElementById("frase-texto");
     const likeBtn = document.getElementById("like-btn");
     const likeCount = document.getElementById("like-count");
+    const seguirBtn = document.getElementById("seguir-btn");
 
     const likeKey = `like_frase_${randomId}`;
 
     fetch(CSV_URL)
       .then(response => response.text())
       .then(csv => {
-        const lines = csv.trim().split("\n").slice(1); // omitir encabezado
+        const lines = csv.trim().split("\n").slice(1);
         const fraseLine = lines[randomId - 1];
         if (!fraseLine) return;
         const [id, text, likes] = fraseLine.split(",");
@@ -130,6 +201,32 @@
           localStorage.setItem(likeKey, currentLikes);
           likeCount.textContent = `${currentLikes} ❤️`;
           likeBtn.disabled = true;
+          likeBtn.style.transform = "scale(1.1)";
+          setTimeout(() => { likeBtn.style.transform = "scale(1)"; }, 200);
+        });
+
+        seguirBtn.addEventListener("click", () => {
+          // Efecto visual al hacer clic
+          seguirBtn.style.animation = "none";
+          setTimeout(() => {
+            seguirBtn.style.animation = "vibracion-sutil 0.4s linear";
+          }, 10);
+          
+          // Mensaje introspectivo
+          const mensajes = [
+            "La reflexión continúa...",
+            "Profundizando...",
+            "Explorando ideas...",
+            "Siguiendo el hilo...",
+            "Pensamiento en progreso..."
+          ];
+          const randomMsg = mensajes[Math.floor(Math.random() * mensajes.length)];
+          seguirBtn.querySelector(".texto").textContent = randomMsg;
+          
+          // Recargar nueva frase después de 1.5 segundos
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
         });
       })
       .catch(err => {
