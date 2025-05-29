@@ -96,6 +96,49 @@
   r.open('GET', 'https://don3b.goatcounter.com/counter/' + encodeURIComponent(path) + '.json');
   r.send();
 </script>
+<div id="frase-container">
+  <p id="frase-texto" style="font-style: italic;"></p>
+  <button id="like-btn">❤️ Like</button>
+  <span id="like-count"></span>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const CSV_URL = "https://raw.githubusercontent.com/burdier/burdier.github.io/master/assets/frases_neutras.csv";
+    const randomId = Math.floor(Math.random() * 500) + 1;
+
+    const fraseTexto = document.getElementById("frase-texto");
+    const likeBtn = document.getElementById("like-btn");
+    const likeCount = document.getElementById("like-count");
+
+    const likeKey = `like_frase_${randomId}`;
+
+    fetch(CSV_URL)
+      .then(response => response.text())
+      .then(csv => {
+        const lines = csv.trim().split("\n").slice(1); // omitir encabezado
+        const fraseLine = lines[randomId - 1];
+        if (!fraseLine) return;
+        const [id, text, likes] = fraseLine.split(",");
+
+        fraseTexto.textContent = text;
+        let currentLikes = parseInt(localStorage.getItem(likeKey) || likes);
+        likeCount.textContent = `${currentLikes} ❤️`;
+
+        likeBtn.addEventListener("click", () => {
+          currentLikes += 1;
+          localStorage.setItem(likeKey, currentLikes);
+          likeCount.textContent = `${currentLikes} ❤️`;
+          likeBtn.disabled = true;
+        });
+      })
+      .catch(err => {
+        fraseTexto.textContent = "No se pudo cargar la frase.";
+        console.error(err);
+      });
+  });
+</script>
+    
   develop by: Burdier 👌
   </body>
 </html>
