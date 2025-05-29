@@ -1,0 +1,501 @@
+id,text,likes
+1,Algo permaneció quieto y no hizo falta moverlo.,0
+2,"Sin razón, simplemente sucedió.",0
+3,"No pasó nada raro, pero aquello cambió.",0
+4,"Todo siguió, aunque nadie lo notó.",0
+5,"Se quedó en el borde, como si no quisiera decidir.",0
+6,"Sin razón, simplemente sucedió.",0
+7,"Una brisa leve, sin intención de quedarse.",0
+8,"Sin razón, simplemente sucedió.",0
+9,"Un silencio cómodo, sin necesidad de llenarlo.",0
+10,"Nadie dijo nada, y eso fue más que suficiente.",0
+11,"No pasó nada raro, pero algo cambió.",0
+12,Como si el día también necesitara descansar.,0
+13,"Un momento que no pidió ser guardado, pero quedó.",0
+14,"No pasó nada raro, pero algo cambió.",0
+15,"No hubo señal, pero se entendió igual.",0
+16,Lo pequeño se sintió suficiente por un rato.,0
+17,"Todo parecía normal, y eso estaba bien.",0
+18,"Un silencio cómodo, sin necesidad de llenarlo.",0
+19,"Un silencio cómodo, sin necesidad de llenarlo.",0
+20,"Todo siguió, aunque nadie lo notó.",0
+21,"Todo parecía normal, y eso estaba bien.",0
+22,Una pausa que no pidió permiso.,0
+23,"Estaba ahí, como siempre, sin apuro.",0
+24,Lo pequeño se sintió suficiente por un rato.,0
+25,"Una brisa leve, sin intención de quedarse.",0
+26,"Nada urgente, nada preciso, y aún así valía.",0
+27,Algo se quedó quieto y no hizo falta moverlo.,0
+28,"Todo parecía normal, y eso estaba bien.",0
+29,La luz entró sin tener que explicar nada.,0
+30,La luz entró sin tener que explicar nada.,0
+31,"Había algo en el aire, pero nadie lo nombró.",0
+32,"Una brisa leve, sin intención de quedarse.",0
+33,"Se quedó en el borde, como si no quisiera decidir.",0
+34,"Una brisa leve, sin intención de quedarse.",0
+35,Lo pequeño se sintió suficiente por un rato.,0
+36,"No pasó nada raro, pero algo cambió.",0
+37,"Un silencio cómodo, sin necesidad de llenarlo.",0
+38,La luz entró sin tener que explicar nada.,0
+39,"No hubo señal, pero se entendió igual.",0
+40,"Sin razón, simplemente sucedió.",0
+41,"Se quedó en el borde, como si no quisiera decidir.",0
+42,"No pasó nada raro, pero algo cambió.",0
+43,"Todo parecía normal, y eso estaba bien.",0
+44,"Estaba ahí, como siempre, sin apuro.",0
+45,"Un silencio cómodo, sin necesidad de llenarlo.",0
+46,"Se quedó en el borde, como si no quisiera decidir.",0
+47,"Estaba ahí, como siempre, sin apuro.",0
+48,Lo pequeño se sintió suficiente por un rato.,0
+49,Lo pequeño se sintió suficiente por un rato.,0
+50,"Sin razón, simplemente sucedió.",0
+51,"Sin razón, simplemente sucedió.",0
+52,"Nadie dijo nada, y eso fue más que suficiente.",0
+53,"No pasó nada raro, pero algo cambió.",0
+54,"Se quedó en el borde, como si no quisiera decidir.",0
+55,"No hubo señal, pero se entendió igual.",0
+56,"No pasó nada raro, pero algo cambió.",0
+57,"Lo sencillo no pidió atención, pero la tuvo.",0
+58,"No pasó nada raro, pero algo cambió.",0
+59,"No hubo señal, pero se entendió igual.",0
+60,"Un silencio cómodo, sin necesidad de llenarlo.",0
+61,"Todo siguió, aunque nadie lo notó.",0
+62,"Un momento que no pidió ser guardado, pero quedó.",0
+63,"No hubo señal, pero se entendió igual.",0
+64,"Nada urgente, nada preciso, y aún así valía.",0
+65,"Sin razón, simplemente sucedió.",0
+66,"Nada urgente, nada preciso, y aún así valía.",0
+67,"No hubo señal, pero se entendió igual.",0
+68,"Lo sencillo no pidió atención, pero la tuvo.",0
+69,La luz entró sin tener que explicar nada.,0
+70,"No hubo señal, pero se entendió igual.",0
+71,"No pasó nada raro, pero aquello cambió.",0
+72,"Todo siguió, aunque nadie lo notó.",0
+73,"Nadie dijo nada, y eso fue más que suficiente.",0
+74,Algo se quedó quieto y no hizo falta moverlo.,0
+75,"Un silencio cómodo, sin necesidad de llenarlo.",0
+76,"Todo parecía normal, y eso estaba bien.",0
+77,La luz entró sin tener que explicar nada.,0
+78,"No pasó nada raro, pero algo cambió.",0
+79,"Un silencio cómodo, sin necesidad de llenarlo.",0
+80,"Había algo en el aire, pero nadie lo nombró.",0
+81,Como si el día también necesitara descansar.,0
+82,"Una brisa leve, sin intención de quedarse.",0
+83,La luz entró sin tener que explicar nada.,0
+84,La luz entró sin tener que explicar nada.,0
+85,"Una brisa leve, sin intención de quedarse.",0
+86,"Todo parecía normal, y eso estaba bien.",0
+87,"Lo sencillo no pidió atención, pero la tuvo.",0
+88,"No hubo señal, pero se entendió igual.",0
+89,"No hubo señal, pero se entendió igual.",0
+90,Lo pequeño se sintió suficiente por un rato.,0
+91,El tiempo pasó como si no supiera que lo miraban.,0
+92,Una pausa que no pidió permiso.,0
+93,"Un silencio cómodo, sin necesidad de llenarlo.",0
+94,"Había algo en el aire, pero nadie lo nombró.",0
+95,"Nada urgente, nada preciso, y aún así valía.",0
+96,"Todo parecía normal, y eso estaba bien.",0
+97,"Un silencio cómodo, sin necesidad de llenarlo.",0
+98,"Se quedó en el borde, como si no quisiera decidir.",0
+99,Como si el día también necesitara descansar.,0
+100,"No hubo señal, pero se entendió igual.",0
+101,"Una brisa leve, sin intención de quedarse.",0
+102,"Un silencio cómodo, sin necesidad de llenarlo.",0
+103,El tiempo pasó como si no supiera que lo miraban.,0
+104,"Estaba ahí, como siempre, sin apuro.",0
+105,"Un momento que no pidió ser guardado, pero quedó.",0
+106,"Estaba ahí, como siempre, sin apuro.",0
+107,El tiempo pasó como si no supiera que lo miraban.,0
+108,Una pausa que no pidió permiso.,0
+109,"Todo siguió, aunque nadie lo notó.",0
+110,"Había algo en el aire, pero nadie lo nombró.",0
+111,"Todo siguió, aunque nadie lo notó.",0
+112,"Un silencio cómodo, sin necesidad de llenarlo.",0
+113,"Un momento que no pidió ser guardado, pero quedó.",0
+114,Como si el día también necesitara descansar.,0
+115,Como si el día también necesitara descansar.,0
+116,Lo pequeño se sintió suficiente por un rato.,0
+117,La luz entró sin tener que explicar nada.,0
+118,Una pausa que no pidió permiso.,0
+119,"Lo sencillo no pidió atención, pero la tuvo.",0
+120,Algo se quedó quieto y no hizo falta moverlo.,0
+121,Algo se quedó quieto y no hizo falta moverlo.,0
+122,El tiempo pasó como si no supiera que lo miraban.,0
+123,"Todo siguió, aunque nadie lo notó.",0
+124,"No hubo señal, pero se entendió igual.",0
+125,"Lo sencillo no pidió atención, pero la tuvo.",0
+126,"No hubo señal, pero se entendió igual.",0
+127,El tiempo pasó como si no supiera que lo miraban.,0
+128,"Nada urgente, nada preciso, y aún así valía.",0
+129,"No hubo señal, pero se entendió igual.",0
+130,"Una brisa leve, sin intención de quedarse.",0
+131,Algo se quedó quieto y no hizo falta moverlo.,0
+132,La luz entró sin tener que explicar nada.,0
+133,Lo pequeño se sintió suficiente por un rato.,0
+134,"Sin razón, simplemente sucedió.",0
+135,"Lo sencillo no pidió atención, pero la tuvo.",0
+136,Como si el día también necesitara descansar.,0
+137,"Había aquello en el aire, pero nadie lo nombró.",0
+138,Como si el día también necesitara descansar.,0
+139,"Se quedó en el borde, como si no quisiera decidir.",0
+140,Como si el día también necesitara descansar.,0
+141,"Lo sencillo no pidió atención, pero la tuvo.",0
+142,"Nada urgente, nada preciso, y aún así valía.",0
+143,"Sin razón, simplemente sucedió.",0
+144,"Nadie dijo nada, y eso fue más que suficiente.",0
+145,"Había algo en el aire, pero nadie lo nombró.",0
+146,"Un momento que no pidió ser guardado, pero quedó.",0
+147,Algo se quedó quieto y no hizo falta moverlo.,0
+148,"Nada urgente, nada preciso, y aún así valía.",0
+149,El tiempo pasó como si no supiera que lo miraban.,0
+150,"Un momento que no pidió ser guardado, pero quedó.",0
+151,"Todo parecía normal, y eso estaba bien.",0
+152,Como si el día también necesitara descansar.,0
+153,"Todo parecía normal, y eso estaba bien.",0
+154,"Se quedó en el borde, como si no quisiera decidir.",0
+155,"Todo siguió, aunque nadie lo notó.",0
+156,Una pausa que no pidió permiso.,0
+157,"Nada urgente, nada preciso, y aún así valía.",0
+158,Como si el día también necesitara descansar.,0
+159,"Un momento que no pidió ser guardado, pero quedó.",0
+160,"Nada urgente, nada preciso, y aún así valía.",0
+161,"Se quedó en el borde, como si no quisiera decidir.",0
+162,Lo pequeño se sintió suficiente por un rato.,0
+163,"Lo sencillo no pidió atención, pero la tuvo.",0
+164,"Había algo en el aire, pero nadie lo nombró.",0
+165,"Nadie dijo nada, y eso fue más que suficiente.",0
+166,"Una brisa leve, sin intención de quedarse.",0
+167,"Un momento que no pidió ser guardado, pero quedó.",0
+168,"Había algo en el aire, pero nadie lo nombró.",0
+169,"Se quedó en el borde, como si no quisiera decidir.",0
+170,"Todo siguió, aunque nadie lo notó.",0
+171,"Estaba ahí, como siempre, sin apuro.",0
+172,"Nadie dijo nada, y eso fue más que suficiente.",0
+173,Como si el día también necesitara descansar.,0
+174,Lo pequeño se sintió suficiente por un rato.,0
+175,"Estaba ahí, como siempre, sin apuro.",0
+176,"Nadie dijo nada, y eso fue más que suficiente.",0
+177,"Sin razón, simplemente sucedió.",0
+178,La luz entró sin tener que explicar nada.,0
+179,"Todo siguió, aunque nadie lo notó.",0
+180,"Todo siguió, aunque nadie lo notó.",0
+181,"Se quedó en el borde, como si no quisiera decidir.",0
+182,Algo se quedó quieto y no hizo falta moverlo.,0
+183,"Nada urgente, nada preciso, y aún así valía.",0
+184,"No pasó nada raro, pero aquello cambió.",0
+185,"Todo siguió, aunque nadie lo notó.",0
+186,"No pasó nada raro, pero algo cambió.",0
+187,"Nadie dijo nada, y eso fue más que suficiente.",0
+188,"Nadie dijo nada, y eso fue más que suficiente.",0
+189,"No pasó nada raro, pero algo cambió.",0
+190,"Lo sencillo no pidió atención, pero la tuvo.",0
+191,"No pasó nada raro, pero algo cambió.",0
+192,"Un silencio cómodo, sin necesidad de llenarlo.",0
+193,"No pasó nada raro, pero algo cambió.",0
+194,"Lo sencillo no pidió atención, pero la tuvo.",0
+195,Lo pequeño se sintió suficiente por un rato.,0
+196,La luz entró sin tener que explicar nada.,0
+197,"Nadie dijo nada, y eso fue más que suficiente.",0
+198,"Un silencio cómodo, sin necesidad de llenarlo.",0
+199,"Sin razón, simplemente sucedió.",0
+200,El tiempo pasó como si no supiera que lo miraban.,0
+201,"Un silencio cómodo, sin necesidad de llenarlo.",0
+202,Lo pequeño se sintió suficiente por un rato.,0
+203,"Estaba ahí, como siempre, sin apuro.",0
+204,"Se quedó en el borde, como si no quisiera decidir.",0
+205,"Lo sencillo no pidió atención, pero la tuvo.",0
+206,"Todo siguió, aunque nadie lo notó.",0
+207,"Sin razón, simplemente sucedió.",0
+208,"Estaba ahí, como siempre, sin apuro.",0
+209,"Todo parecía normal, y eso estaba bien.",0
+210,Una pausa que no pidió permiso.,0
+211,"Un silencio cómodo, sin necesidad de llenarlo.",0
+212,"Todo parecía normal, y eso estaba bien.",0
+213,"Había aquello en el aire, pero nadie lo nombró.",0
+214,"Sin razón, simplemente sucedió.",0
+215,La luz entró sin tener que explicar nada.,0
+216,"Todo siguió, aunque nadie lo notó.",0
+217,"Estaba ahí, como siempre, sin apuro.",0
+218,El tiempo pasó como si no supiera que lo miraban.,0
+219,"No pasó nada raro, pero algo cambió.",0
+220,"Una brisa leve, sin intención de quedarse.",0
+221,"Todo parecía normal, y eso estaba bien.",0
+222,"Un silencio cómodo, sin necesidad de llenarlo.",0
+223,Lo pequeño se sintió suficiente por un rato.,0
+224,"Estaba ahí, como siempre, sin apuro.",0
+225,"No pasó nada raro, pero algo cambió.",0
+226,"Una brisa leve, sin intención de quedarse.",0
+227,"No pasó nada raro, pero algo cambió.",0
+228,"Un silencio cómodo, sin necesidad de llenarlo.",0
+229,"Un silencio cómodo, sin necesidad de llenarlo.",0
+230,"Había algo en el aire, pero nadie lo nombró.",0
+231,"Una brisa leve, sin intención de quedarse.",0
+232,"Nada urgente, nada preciso, y aún así valía.",0
+233,"No pasó nada raro, pero algo cambió.",0
+234,La luz entró sin tener que explicar nada.,0
+235,El tiempo pasó como si no supiera que lo miraban.,0
+236,"Nada urgente, nada preciso, y aún así valía.",0
+237,"Todo parecía normal, y eso estaba bien.",0
+238,Una pausa que no pidió permiso.,0
+239,"Todo siguió, aunque nadie lo notó.",0
+240,"Nada urgente, nada preciso, y aún así valía.",0
+241,"Todo siguió, aunque nadie lo notó.",0
+242,"No pasó nada raro, pero algo cambió.",0
+243,"Nada urgente, nada preciso, y aún así valía.",0
+244,Lo pequeño se sintió suficiente por un rato.,0
+245,"Había algo en el aire, pero nadie lo nombró.",0
+246,"Nadie dijo nada, y eso fue más que suficiente.",0
+247,Como si el día también necesitara descansar.,0
+248,"Se quedó en el borde, como si no quisiera decidir.",0
+249,"Nada urgente, nada preciso, y aún así valía.",0
+250,"Un momento que no pidió ser guardado, pero quedó.",0
+251,Algo permaneció quieto y no hizo falta moverlo.,0
+252,Algo permaneció quieto y no hizo falta moverlo.,0
+253,El tiempo pasó como si no supiera que lo miraban.,0
+254,"Un momento que no pidió ser guardado, pero quedó.",0
+255,Algo se quedó quieto y no hizo falta moverlo.,0
+256,"Nadie dijo nada, y eso fue más que suficiente.",0
+257,"Estaba ahí, como siempre, sin apuro.",0
+258,"Estaba ahí, como siempre, sin apuro.",0
+259,El tiempo pasó como si no supiera que lo miraban.,0
+260,"Todo parecía normal, y eso estaba bien.",0
+261,"Todo siguió, aunque nadie lo notó.",0
+262,"Todo parecía normal, y eso estaba bien.",0
+263,"Había algo en el aire, pero nadie lo nombró.",0
+264,Lo pequeño se sintió suficiente por un rato.,0
+265,"Nada urgente, nada preciso, y aún así valía.",0
+266,"Una brisa leve, sin intención de quedarse.",0
+267,"Una brisa leve, sin intención de quedarse.",0
+268,"Un silencio cómodo, sin necesidad de llenarlo.",0
+269,Una pausa que no pidió permiso.,0
+270,Algo se quedó quieto y no hizo falta moverlo.,0
+271,El tiempo pasó como si no supiera que lo miraban.,0
+272,"Lo sencillo no pidió atención, pero la tuvo.",0
+273,Lo pequeño se sintió suficiente por un rato.,0
+274,"Un silencio cómodo, sin necesidad de llenarlo.",0
+275,"No hubo señal, pero se entendió igual.",0
+276,Como si el día también necesitara descansar.,0
+277,"Nadie dijo nada, y eso fue más que suficiente.",0
+278,"Todo siguió, aunque nadie lo notó.",0
+279,Lo pequeño se sintió suficiente por un rato.,0
+280,"No pasó nada raro, pero algo cambió.",0
+281,"Todo siguió, aunque nadie lo notó.",0
+282,"Una brisa leve, sin intención de quedarse.",0
+283,El tiempo pasó como si no supiera que lo miraban.,0
+284,"Un silencio cómodo, sin necesidad de llenarlo.",0
+285,La luz entró sin tener que explicar nada.,0
+286,"No hubo señal, pero se entendió igual.",0
+287,La luz entró sin tener que explicar nada.,0
+288,"Una brisa leve, sin intención de quedarse.",0
+289,"Una brisa leve, sin intención de quedarse.",0
+290,"Lo sencillo no pidió atención, pero la tuvo.",0
+291,"Todo parecía normal, y eso estaba bien.",0
+292,"Nadie dijo nada, y eso fue más que suficiente.",0
+293,"Sin razón, simplemente sucedió.",0
+294,"No pasó nada raro, pero algo cambió.",0
+295,Lo pequeño se sintió suficiente por un rato.,0
+296,"Una brisa leve, sin intención de quedarse.",0
+297,Algo se quedó quieto y no hizo falta moverlo.,0
+298,La luz entró sin tener que explicar nada.,0
+299,El tiempo pasó como si no supiera que lo miraban.,0
+300,"Lo sencillo no pidió atención, pero la tuvo.",0
+301,"Un momento que no pidió ser guardado, pero quedó.",0
+302,"Una brisa leve, sin intención de quedarse.",0
+303,"Se quedó en el borde, como si no quisiera decidir.",0
+304,"Se quedó en el borde, como si no quisiera decidir.",0
+305,"Nadie dijo nada, y eso fue más que suficiente.",0
+306,"Se quedó en el borde, como si no quisiera decidir.",0
+307,"No pasó nada raro, pero aquello cambió.",0
+308,Una pausa que no pidió permiso.,0
+309,La luz entró sin tener que explicar nada.,0
+310,"No pasó nada raro, pero aquello cambió.",0
+311,"Nada urgente, nada preciso, y aún así valía.",0
+312,Lo pequeño se sintió suficiente por un rato.,0
+313,"Nadie dijo nada, y eso fue más que suficiente.",0
+314,Algo se quedó quieto y no hizo falta moverlo.,0
+315,"Nadie dijo nada, y eso fue más que suficiente.",0
+316,"Había algo en el aire, pero nadie lo nombró.",0
+317,"Estaba ahí, como siempre, sin apuro.",0
+318,"Nada urgente, nada preciso, y aún así valía.",0
+319,"Un silencio cómodo, sin necesidad de llenarlo.",0
+320,Lo pequeño se sintió suficiente por un rato.,0
+321,"Un silencio cómodo, sin necesidad de llenarlo.",0
+322,Algo se quedó quieto y no hizo falta moverlo.,0
+323,"Un silencio cómodo, sin necesidad de llenarlo.",0
+324,"Sin razón, simplemente sucedió.",0
+325,"Sin razón, simplemente sucedió.",0
+326,"No hubo señal, pero se entendió igual.",0
+327,El tiempo pasó como si no supiera que lo miraban.,0
+328,La luz entró sin tener que explicar nada.,0
+329,"Todo siguió, aunque nadie lo notó.",0
+330,"Sin razón, simplemente sucedió.",0
+331,"Lo sencillo no pidió atención, pero la tuvo.",0
+332,"Una brisa leve, sin intención de quedarse.",0
+333,"Una brisa leve, sin intención de quedarse.",0
+334,"Una brisa leve, sin intención de quedarse.",0
+335,La luz entró sin tener que explicar nada.,0
+336,Algo se quedó quieto y no hizo falta moverlo.,0
+337,"Lo sencillo no pidió atención, pero la tuvo.",0
+338,"Había algo en el aire, pero nadie lo nombró.",0
+339,"Nadie dijo nada, y eso fue más que suficiente.",0
+340,"No pasó nada raro, pero algo cambió.",0
+341,Como si el día también necesitara descansar.,0
+342,"No pasó nada raro, pero algo cambió.",0
+343,"Una brisa leve, sin intención de quedarse.",0
+344,"Sin razón, simplemente sucedió.",0
+345,"Todo siguió, aunque nadie lo notó.",0
+346,"Una brisa leve, sin intención de quedarse.",0
+347,El tiempo pasó como si no supiera que lo miraban.,0
+348,Algo se quedó quieto y no hizo falta moverlo.,0
+349,El tiempo pasó como si no supiera que lo miraban.,0
+350,El tiempo pasó como si no supiera que lo miraban.,0
+351,"Nadie dijo nada, y eso fue más que suficiente.",0
+352,"Se quedó en el borde, como si no quisiera decidir.",0
+353,"Una brisa leve, sin intención de quedarse.",0
+354,"Estaba ahí, como siempre, sin apuro.",0
+355,"Una brisa leve, sin intención de quedarse.",0
+356,Lo pequeño se sintió suficiente por un rato.,0
+357,"Sin razón, simplemente sucedió.",0
+358,"Un momento que no pidió ser guardado, pero quedó.",0
+359,"Nada urgente, nada preciso, y aún así valía.",0
+360,"Se quedó en el borde, como si no quisiera decidir.",0
+361,"No hubo señal, pero se entendió igual.",0
+362,"No pasó nada raro, pero algo cambió.",0
+363,"Todo siguió, aunque nadie lo notó.",0
+364,"Un momento que no pidió ser guardado, pero quedó.",0
+365,"Lo sencillo no pidió atención, pero la tuvo.",0
+366,"Había algo en el aire, pero nadie lo nombró.",0
+367,"Un momento que no pidió ser guardado, pero quedó.",0
+368,"Una brisa leve, sin intención de quedarse.",0
+369,"Todo siguió, aunque nadie lo notó.",0
+370,"Un silencio cómodo, sin necesidad de llenarlo.",0
+371,"No hubo señal, pero se entendió igual.",0
+372,"No hubo señal, pero se entendió igual.",0
+373,Lo pequeño se sintió suficiente por un rato.,0
+374,Como si el día también necesitara descansar.,0
+375,Como si el día también necesitara descansar.,0
+376,"Se quedó en el borde, como si no quisiera decidir.",0
+377,"Estaba ahí, como siempre, sin apuro.",0
+378,"Una brisa leve, sin intención de quedarse.",0
+379,"Todo siguió, aunque nadie lo notó.",0
+380,"Un silencio cómodo, sin necesidad de llenarlo.",0
+381,"Un momento que no pidió ser guardado, pero quedó.",0
+382,"Todo siguió, aunque nadie lo notó.",0
+383,"Estaba ahí, como siempre, sin apuro.",0
+384,"Un momento que no pidió ser guardado, pero quedó.",0
+385,Como si el día también necesitara descansar.,0
+386,La luz entró sin tener que explicar nada.,0
+387,El tiempo pasó como si no supiera que lo miraban.,0
+388,"Sin razón, simplemente sucedió.",0
+389,Algo se quedó quieto y no hizo falta moverlo.,0
+390,La luz entró sin tener que explicar nada.,0
+391,"Lo sencillo no pidió atención, pero la tuvo.",0
+392,"Un momento que no pidió ser guardado, pero quedó.",0
+393,"Nadie dijo nada, y eso fue más que suficiente.",0
+394,"Sin razón, simplemente sucedió.",0
+395,"Una brisa leve, sin intención de quedarse.",0
+396,"Un momento que no pidió ser guardado, pero quedó.",0
+397,"Un momento que no pidió ser guardado, pero quedó.",0
+398,"Lo sencillo no pidió atención, pero la tuvo.",0
+399,"Una brisa leve, sin intención de quedarse.",0
+400,"Sin razón, simplemente sucedió.",0
+401,"No hubo señal, pero se entendió igual.",0
+402,Como si el día también necesitara descansar.,0
+403,"Nadie dijo nada, y eso fue más que suficiente.",0
+404,El tiempo pasó como si no supiera que lo miraban.,0
+405,"Todo siguió, aunque nadie lo notó.",0
+406,"Una brisa leve, sin intención de quedarse.",0
+407,"Todo siguió, aunque nadie lo notó.",0
+408,"Todo siguió, aunque nadie lo notó.",0
+409,"Se quedó en el borde, como si no quisiera decidir.",0
+410,La luz entró sin tener que explicar nada.,0
+411,"Un momento que no pidió ser guardado, pero quedó.",0
+412,Lo pequeño se sintió suficiente por un rato.,0
+413,Como si el día también necesitara descansar.,0
+414,El tiempo pasó como si no supiera que lo miraban.,0
+415,"Estaba ahí, como siempre, sin apuro.",0
+416,"Nada urgente, nada preciso, y aún así valía.",0
+417,"Nada urgente, nada preciso, y aún así valía.",0
+418,"Lo sencillo no pidió atención, pero la tuvo.",0
+419,"Todo parecía normal, y eso estaba bien.",0
+420,"Había algo en el aire, pero nadie lo nombró.",0
+421,"Había algo en el aire, pero nadie lo nombró.",0
+422,Una pausa que no pidió permiso.,0
+423,"Nadie dijo nada, y eso fue más que suficiente.",0
+424,"Un momento que no pidió ser guardado, pero quedó.",0
+425,"Había algo en el aire, pero nadie lo nombró.",0
+426,La luz entró sin tener que explicar nada.,0
+427,"Sin razón, simplemente sucedió.",0
+428,"Nadie dijo nada, y eso fue más que suficiente.",0
+429,"No hubo señal, pero se entendió igual.",0
+430,"Todo siguió, aunque nadie lo notó.",0
+431,"Nadie dijo nada, y eso fue más que suficiente.",0
+432,"Un silencio cómodo, sin necesidad de llenarlo.",0
+433,Algo permaneció quieto y no hizo falta moverlo.,0
+434,La luz entró sin tener que explicar nada.,0
+435,"Una brisa leve, sin intención de quedarse.",0
+436,"Un momento que no pidió ser guardado, pero quedó.",0
+437,"Todo parecía normal, y eso estaba bien.",0
+438,"Estaba ahí, como siempre, sin apuro.",0
+439,La luz entró sin tener que explicar nada.,0
+440,"Sin razón, simplemente sucedió.",0
+441,Una pausa que no pidió permiso.,0
+442,Como si el día también necesitara descansar.,0
+443,Lo pequeño se sintió suficiente por un rato.,0
+444,"Nadie dijo nada, y eso fue más que suficiente.",0
+445,Algo se quedó quieto y no hizo falta moverlo.,0
+446,"Una brisa leve, sin intención de quedarse.",0
+447,La luz entró sin tener que explicar nada.,0
+448,La luz entró sin tener que explicar nada.,0
+449,"Una brisa leve, sin intención de quedarse.",0
+450,Una pausa que no pidió permiso.,0
+451,"Todo siguió, aunque nadie lo notó.",0
+452,Algo se quedó quieto y no hizo falta moverlo.,0
+453,Algo se quedó quieto y no hizo falta moverlo.,0
+454,Una pausa que no pidió permiso.,0
+455,"Nada urgente, nada preciso, y aún así valía.",0
+456,"Sin razón, simplemente sucedió.",0
+457,"Había algo en el aire, pero nadie lo nombró.",0
+458,Algo se quedó quieto y no hizo falta moverlo.,0
+459,"Sin razón, simplemente sucedió.",0
+460,"Todo siguió, aunque nadie lo notó.",0
+461,Como si el día también necesitara descansar.,0
+462,"Un momento que no pidió ser guardado, pero quedó.",0
+463,"Nada urgente, nada preciso, y aún así valía.",0
+464,"Un momento que no pidió ser guardado, pero quedó.",0
+465,"Sin razón, simplemente sucedió.",0
+466,"Una brisa leve, sin intención de quedarse.",0
+467,"Todo siguió, aunque nadie lo notó.",0
+468,"Lo sencillo no pidió atención, pero la tuvo.",0
+469,"Todo siguió, aunque nadie lo notó.",0
+470,"Se quedó en el borde, como si no quisiera decidir.",0
+471,"Todo siguió, aunque nadie lo notó.",0
+472,"Se quedó en el borde, como si no quisiera decidir.",0
+473,"Nada urgente, nada preciso, y aún así valía.",0
+474,Algo se quedó quieto y no hizo falta moverlo.,0
+475,"Nadie dijo nada, y eso fue más que suficiente.",0
+476,"Había algo en el aire, pero nadie lo nombró.",0
+477,"Se quedó en el borde, como si no quisiera decidir.",0
+478,"Todo parecía normal, y eso estaba bien.",0
+479,"Un silencio cómodo, sin necesidad de llenarlo.",0
+480,Algo se quedó quieto y no hizo falta moverlo.,0
+481,"No hubo señal, pero se entendió igual.",0
+482,"Nadie dijo nada, y eso fue más que suficiente.",0
+483,"No hubo señal, pero se entendió igual.",0
+484,Una pausa que no pidió permiso.,0
+485,Lo pequeño se sintió suficiente por un rato.,0
+486,"Un momento que no pidió ser guardado, pero quedó.",0
+487,"No pasó nada raro, pero aquello cambió.",0
+488,"Estaba ahí, como siempre, sin apuro.",0
+489,La luz entró sin tener que explicar nada.,0
+490,El tiempo pasó como si no supiera que lo miraban.,0
+491,Algo se quedó quieto y no hizo falta moverlo.,0
+492,"Se quedó en el borde, como si no quisiera decidir.",0
+493,"Un silencio cómodo, sin necesidad de llenarlo.",0
+494,"Nada urgente, nada preciso, y aún así valía.",0
+495,Lo pequeño se sintió suficiente por un rato.,0
+496,"Todo parecía normal, y eso estaba bien.",0
+497,Como si el día también necesitara descansar.,0
+498,La luz entró sin tener que explicar nada.,0
+499,"Todo siguió, aunque nadie lo notó.",0
+500,"No hubo señal, pero se entendió igual.",0
