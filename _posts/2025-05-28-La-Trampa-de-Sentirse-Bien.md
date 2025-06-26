@@ -1,5 +1,8 @@
-
-## **La trampa de sentirse bien**
+---
+title: La Trampa de Sentirse Bien.
+categories: [vida]
+comments: true
+---
 
 Vivimos en una constante búsqueda de “estar bien”. Pero, ¿realmente existe algo así como estar bien? ¿Y es sano perseguir sin descanso ese estado emocional fijo, sólido y constante?
 
