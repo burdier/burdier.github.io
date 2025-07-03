@@ -301,38 +301,160 @@
   </iframe>
 </div>
 
-<!-- Botón flotante -->
-<button id="expand-button">🌐 Ver en grande</button>
+<!-- Botón flotante en esquina -->
+<style>
+  #hub-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #000;
+    color: #fff;
+    border-radius: 999px;
+    padding: 12px 18px;
+    z-index: 1000;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
 
-<!-- Modal + Overlay -->
-<div id="overlay"></div>
-<iframe id="iframe-modal" src="https://friendly-kashata-a06bba.netlify.app"></iframe>
-<button id="close-button" style="display: none;">✖</button>
+  #plugin-menu {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    min-width: 200px;
+  }
 
+  #plugin-menu.hidden {
+    display: none;
+  }
+
+  #plugin-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #plugin-menu li {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  #plugin-menu li:hover {
+    background: #f0f0f0;
+  }
+</style>
+
+<button id="hub-button">⚙️ Don3b Tools</button>
+
+<div id="plugin-menu" class="hidden">
+  <strong>Herramientas:</strong>
+  <ul id="plugin-list"></ul>
+</div>
 <script>
-  const expandBtn = document.getElementById("expand-button");
-  const overlay = document.getElementById("overlay");
-  const modalIframe = document.getElementById("iframe-modal");
-  const closeBtn = document.getElementById("close-button");
+  const STORAGE_KEY = "don3b_plugins";
 
-  expandBtn.addEventListener("click", function () {
-    overlay.style.display = "block";
-    modalIframe.style.display = "block";
-    closeBtn.style.display = "block";
+  // Paso 1: inicializar plugins en localStorage (si no existen)
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    const initialPlugins = [
+      {
+        folder: "speech_plugin",
+        entry: "plugins/speech_plugin/index.html",
+        config: "plugins/speech_plugin/config.js"
+      }
+    ];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialPlugins));
+  }
+
+  const pluginList = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const pluginListEl = document.getElementById("plugin-list");
+  const menuEl = document.getElementById("plugin-menu");
+  const btnEl = document.getElementById("hub-button");
+
+  // Mostrar/ocultar menú al hacer click
+  btnEl.addEventListener("click", () => {
+    menuEl.classList.toggle("hidden");
   });
 
-  closeBtn.addEventListener("click", function () {
-    overlay.style.display = "none";
-    modalIframe.style.display = "none";
-    closeBtn.style.display = "none";
+  // Paso 2: cargar la metadata de cada plugin (config.js)
+  pluginList.forEach(plugin => {
+    const script = document.createElement("script");
+    script.src = plugin.config;
+    script.onload = () => {
+      const config = window.pluginConfig;
+      if (!config || !config.name) return;
+
+      const li = document.createElement("li");
+      li.textContent = config.name;
+      li.addEventListener("click", () => launchPlugin(config, plugin.entry));
+      pluginListEl.appendChild(li);
+    };
+    document.body.appendChild(script);
   });
 
-  // También cerrar al hacer clic fuera del iframe
-  overlay.addEventListener("click", function () {
-    overlay.style.display = "none";
-    modalIframe.style.display = "none";
-    closeBtn.style.display = "none";
-  });
+  // Paso 3: función para lanzar el plugin
+  async function launchPlugin(config, entryUrl) {
+    if (config.permissions?.includes("microphone")) {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch {
+        alert("Este plugin requiere acceso al micrófono.");
+        return;
+      }
+    }
+
+    if (config.type === "repo-html") {
+      fetch(entryUrl)
+        .then(res => res.text())
+        .then(html => showPluginHTML(html));
+    }
+  }
+
+  // Mostrar HTML del plugin dentro de overlay
+  function showPluginHTML(htmlContent) {
+    const overlay = createOverlay();
+    const container = document.createElement("div");
+    container.innerHTML = htmlContent;
+    container.style.cssText = `
+      position: fixed;
+      top: 5%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background: white;
+      overflow: auto;
+      z-index: 1001;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    `;
+    overlay.appendChild(container);
+  }
+
+  // Crear overlay oscuro
+  function createOverlay() {
+    let existing = document.getElementById("plugin-overlay");
+    if (existing) existing.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "plugin-overlay";
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+    `;
+    overlay.addEventListener("click", () => overlay.remove());
+    document.body.appendChild(overlay);
+    return overlay;
+  }
 </script>
 
 </html>
