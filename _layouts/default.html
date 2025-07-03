@@ -238,4 +238,101 @@
     
   develop by: Burdier 👌
   </body>
+  <style>
+  /* Estilos para el botón flotante */
+  #expand-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  /* Fondo oscuro para modal */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+
+  /* Iframe modal */
+  #iframe-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    border: none;
+    z-index: 1002;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+
+  #close-button {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 1003;
+    font-size: 24px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+
+<!-- Contenedor original del iframe -->
+<div id="iframe-container">
+  <iframe 
+    src="https://friendly-kashata-a06bba.netlify.app" 
+    width="100%" 
+    height="800px" 
+    frameborder="0">
+  </iframe>
+</div>
+
+<!-- Botón flotante -->
+<button id="expand-button">🌐 Ver en grande</button>
+
+<!-- Modal + Overlay -->
+<div id="overlay"></div>
+<iframe id="iframe-modal" src="https://friendly-kashata-a06bba.netlify.app"></iframe>
+<button id="close-button" style="display: none;">✖</button>
+
+<script>
+  const expandBtn = document.getElementById("expand-button");
+  const overlay = document.getElementById("overlay");
+  const modalIframe = document.getElementById("iframe-modal");
+  const closeBtn = document.getElementById("close-button");
+
+  expandBtn.addEventListener("click", function () {
+    overlay.style.display = "block";
+    modalIframe.style.display = "block";
+    closeBtn.style.display = "block";
+  });
+
+  closeBtn.addEventListener("click", function () {
+    overlay.style.display = "none";
+    modalIframe.style.display = "none";
+    closeBtn.style.display = "none";
+  });
+
+  // También cerrar al hacer clic fuera del iframe
+  overlay.addEventListener("click", function () {
+    overlay.style.display = "none";
+    modalIframe.style.display = "none";
+    closeBtn.style.display = "none";
+  });
+</script>
+
 </html>
