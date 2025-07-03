@@ -1,19 +1,95 @@
-<!-- Botón flotante para abrir menú -->
-<button id="hub-button">⚙️ Don3b Tools</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Don3b Hub</title>
+  <style>
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      background: #121212; color: #eee;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
+    }
+    #hub-button {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: #4caf50; border: none; 
+      border-radius: 50%; 
+      width: 56px; height: 56px; 
+      color: white; font-size: 28px; 
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(76,175,80,0.6);
+      transition: background 0.3s ease;
+      display: flex; justify-content: center; align-items: center;
+    }
+    #hub-button:hover {
+      background: #45a049;
+    }
+    #plugin-menu {
+      position: fixed;
+      bottom: 90px; right: 20px;
+      background: #222;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      padding: 10px 15px;
+      min-width: 180px;
+      font-weight: 600;
+      display: none;
+      user-select: none;
+    }
+    #plugin-menu ul {
+      list-style: none; padding: 0; margin: 8px 0 0 0;
+    }
+    #plugin-menu li {
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+    #plugin-menu li:hover {
+      background: #4caf50;
+      color: #fff;
+    }
+    #plugin-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    #plugin-overlay > div {
+      width: 90vw;
+      height: 80vh;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #4caf50;
+      background: #000;
+      border: 2px solid #4caf50;
+    }
+    #plugin-overlay iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
 
-<!-- Menú flotante con lista de plugins -->
-<div id="plugin-menu" class="hidden">
-  <strong>Herramientas:</strong>
+<button id="hub-button" aria-label="Abrir menú de plugins">⚙️</button>
+
+<div id="plugin-menu" role="menu" aria-hidden="true">
+  <div>Herramientas</div>
   <ul id="plugin-list"></ul>
 </div>
 
-<!-- Overlay para mostrar plugin dinámico -->
-<div id="plugin-overlay" style="display:none;"></div>
+<div id="plugin-overlay" role="dialog" aria-modal="true" tabindex="-1"></div>
 
 <script>
   const STORAGE_KEY = "don3b_plugins";
 
-  // Plugins iniciales (si no hay en localStorage)
   if (!localStorage.getItem(STORAGE_KEY)) {
     const initialPlugins = [
       {
@@ -25,16 +101,20 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initialPlugins));
   }
 
-  const pluginList = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const btn = document.getElementById("hub-button");
+  const menu = document.getElementById("plugin-menu");
   const pluginListEl = document.getElementById("plugin-list");
-  const menuEl = document.getElementById("plugin-menu");
-  const btnEl = document.getElementById("hub-button");
+  const overlay = document.getElementById("plugin-overlay");
 
-  btnEl.addEventListener("click", () => {
-    menuEl.classList.toggle("hidden");
+  btn.addEventListener("click", () => {
+    const isOpen = menu.style.display === "block";
+    menu.style.display = isOpen ? "none" : "block";
+    menu.setAttribute("aria-hidden", isOpen ? "true" : "false");
   });
 
-  pluginList.forEach(plugin => {
+  const plugins = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+  plugins.forEach(plugin => {
     const script = document.createElement("script");
     script.src = plugin.config;
     script.onload = () => {
@@ -43,107 +123,45 @@
 
       const li = document.createElement("li");
       li.textContent = config.name;
-      li.addEventListener("click", () => launchPlugin(config, plugin.entry));
+      li.tabIndex = 0;
+      li.setAttribute("role", "menuitem");
+      li.onclick = () => launchPlugin(config, plugin.entry);
+      li.onkeypress = e => { if (e.key === "Enter") launchPlugin(config, plugin.entry); };
+
       pluginListEl.appendChild(li);
     };
     document.body.appendChild(script);
   });
 
   async function launchPlugin(config, entryUrl) {
+    menu.style.display = "none";
+    menu.setAttribute("aria-hidden", "true");
+
     if (config.permissions?.includes("microphone")) {
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch {
-        alert("Este plugin requiere acceso al micrófono.");
+        alert("Este plugin necesita acceso al micrófono.");
         return;
       }
     }
 
-    showPluginIframe(entryUrl);
-  }
-
-  function showPluginIframe(url) {
-    const overlay = document.getElementById("plugin-overlay");
     overlay.innerHTML = `
-      <div style="
-        position: fixed;
-        top: 5%;
-        left: 5%;
-        width: 90%;
-        height: 90%;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 0 30px rgba(0,0,0,0.4);
-        overflow: hidden;
-      ">
-        <iframe src="${url}" frameborder="0" style="width:100%; height:100%; border:none;"></iframe>
+      <div>
+        <iframe src="${entryUrl}" allow="microphone; camera"></iframe>
       </div>
     `;
-    overlay.style.display = "block";
+    overlay.style.display = "flex";
+    overlay.focus();
 
-    // Cierra al hacer clic afuera del contenido
-    overlay.addEventListener("click", function (e) {
+    overlay.onclick = (e) => {
       if (e.target === overlay) {
         overlay.style.display = "none";
         overlay.innerHTML = "";
       }
-    });
+    };
   }
 </script>
 
-<style>
-  #hub-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #000;
-    color: #fff;
-    border-radius: 999px;
-    padding: 12px 18px;
-    z-index: 1000;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  }
-
-  #plugin-menu {
-    position: fixed;
-    bottom: 70px;
-    right: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    z-index: 1000;
-    min-width: 200px;
-  }
-
-  #plugin-menu.hidden {
-    display: none;
-  }
-
-  #plugin-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  #plugin-menu li {
-    padding: 8px 10px;
-    cursor: pointer;
-    border-radius: 6px;
-  }
-
-  #plugin-menu li:hover {
-    background: #f0f0f0;
-  }
-
-  #plugin-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 1000;
-  }
-</style>
+</body>
+</html>
