@@ -1,8 +1,7 @@
 ---
-title: "Cómo usar mi app para músicos: music easy  tracker "
-date: 2025-07-14
-layout: post
-tags: [música, productividad, apps, jekyll, tracking]
+title:Cómo usar mi app para músicos: music easy  tracker.
+categories: [music]
+comments: true
 ---
 
 > ⚠️ **Este post fue generado con la ayuda de inteligencia artificial (IA), revisado por mí antes de publicarse.**
