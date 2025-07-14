@@ -1,10 +1,10 @@
 ---
-title:Cómo usar mi app para músicos: music easy  tracker.
-categories: [music]
+title: "Cómo usar mi app para músicos: Regal Ganache"
+categories: [herramientas, música, productividad]
 comments: true
 ---
 
-> ⚠️ **Este post fue generado con la ayuda de inteligencia artificial (IA), revisado por mí antes de publicarse.**
+> ⚠️ **Este post fue generado con la ayuda de inteligencia artificial (IA), y revisado manualmente antes de su publicación.**
 
 ## 🎧 Regal Ganache: trackea tus ideas musicales sin fricción
 
@@ -18,12 +18,12 @@ En esta guía te muestro cómo usarla paso a paso.
 
 Es una app web minimalista donde puedes:
 
-- Crear entradas para tus ideas musicales
-- Especificar nombre, fecha, estado y notas
-- Marcar ideas como terminadas o en progreso
-- Ver todas tus ideas en una vista ordenada
+- Crear entradas para tus ideas musicales  
+- Especificar nombre, fecha, estado y notas  
+- Marcar ideas como terminadas o en progreso  
+- Ver todas tus ideas en una vista ordenada  
 
-¡No requiere registro ni login! Es ideal para flujos rápidos.
+> No requiere registro ni login. Es ideal para flujos rápidos y privados.
 
 ---
 
@@ -31,9 +31,7 @@ Es una app web minimalista donde puedes:
 
 ### 1. Abre la app
 
-Ve a:  
-👉 [https://regal-ganache-b3dfdb.netlify.app/](https://regal-ganache-b3dfdb.netlify.app/)
-
+👉 [https://regal-ganache-b3dfdb.netlify.app/](https://regal-ganache-b3dfdb.netlify.app/)  
 Funciona tanto en desktop como en móvil.
 
 ---
@@ -44,10 +42,10 @@ Haz clic en **“+ Add Track”**.
 
 Completa los campos:
 
-- 🎵 **Nombre del track**: Ej. “Intro batería tribal”
-- 📅 **Fecha**: Cuando se te ocurrió
-- 🟡 **Estado**: “Idea”, “En proceso”, “Completo”
-- 📝 **Notas**: Algo sobre estructura, referencias, etc.
+- 🎵 **Nombre del track** — Ej: “Intro batería tribal”  
+- 📅 **Fecha** — Cuando se te ocurrió  
+- 🟡 **Estado** — "Idea", "En proceso", "Completo"  
+- 📝 **Notas** — Estructura, referencias, ideas sueltas, etc.
 
 Luego haz clic en **Save**.
 
@@ -55,13 +53,13 @@ Luego haz clic en **Save**.
 
 ### 3. Visualiza y edita tus ideas
 
-Verás una lista con todas tus ideas. Puedes:
+Verás una lista con todas tus ideas musicales. Puedes:
 
-- Ordenarlas por estado
-- Editar cualquier entrada
-- Borrar si ya no es relevante
+- Ordenarlas por estado  
+- Editar cualquier entrada  
+- Eliminar si ya no es relevante  
 
-La data se guarda localmente en tu navegador, así que es **privada** y **rápida**.
+> La información se guarda localmente en tu navegador, así que es **privada** y **rápida**.
 
 ---
 
@@ -69,27 +67,33 @@ La data se guarda localmente en tu navegador, así que es **privada** y **rápid
 
 ### ¿Pierdo mis ideas si cierro la pestaña?
 
-No, se guardan en el almacenamiento local del navegador. Pero si limpias caché, podrían borrarse. Se recomienda copiar tus ideas terminadas a otro lugar para backup.
+No. Regal Ganache usa almacenamiento local.  
+Sin embargo, si limpias la caché del navegador, podrías perderlas. Se recomienda guardar tus ideas completas en otro lugar como backup.
 
 ### ¿Puedo usarla en el celular?
 
-Sí, es 100% responsive.
+Sí. Es 100% responsive.
 
 ### ¿Planeas agregar más funciones?
 
-Sí, ideas como exportar a CSV, sincronización en la nube o tags están en camino. Si tienes sugerencias, ¡me encantaría leerlas!
+Sí. Algunas ideas en camino:
+
+- Exportar ideas a CSV  
+- Sincronización en la nube  
+- Tags y filtros avanzados  
+
+Si tienes sugerencias, ¡me encantaría leerlas!
 
 ---
 
 ## 🎤 Pensado por y para músicos
 
-Esta app nació de mi necesidad personal como músico de tener algo **rápido, sin distracciones ni registros**. Regal Ganache es un primer paso, y si a ti también te sirve, ya valió la pena.
+Esta app nació de mi necesidad personal como músico de tener algo **rápido, sin distracciones ni registros**.  
+Regal Ganache es un primer paso, y si a ti también te sirve, ya valió la pena.
 
 ---
 
 ¿Te gustó la app?  
 Compártela con otros músicos o déjame tus comentarios aquí en el blog.
 
-👉 [Prueba Regal Ganache ahora](https://regal-ganache-b3dfdb.netlify.app/)
-
----
+👉 [Pruébala ahora](https://regal-ganache-b3dfdb.netlify.app/)
