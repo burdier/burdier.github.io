@@ -69,7 +69,7 @@ Es algo que no había publicado antes ni lo haría; no contaba, pues el mero act
 No por la mala voluntad de los demás o malos deseos, sino porque **cuando lo cuentas**, tu cerebro no ve diferencia entre un logro alcanzado y uno que aún no se ha alcanzado.
 
 **Contar tus planes reduce tu energía y tu virtud.**  
-Es mejor guardar esas ganas de contar para **conseguir en silencio**.
+Es mejor guardar esas ganas de contar para **construir en silencio**.
 
 ---
 
