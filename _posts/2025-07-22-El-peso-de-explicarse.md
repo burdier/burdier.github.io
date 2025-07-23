@@ -32,7 +32,7 @@ Yo, en mi mente: _“Obvio 🤔.”_
 
 > —¿Qué te pasa que no te veo clean? Te ves acabado. Si quieres dinero, te doy.
 
-Obviamente, si digo que sí, **no me dará dinero**. No se trata de mí, al final. Se trata de que él **sí** está “clean” de nuevo. Nada que ver conmigo, más bien con lo que **ellos entienden que debo ser** para encajarme en **su mismo**.
+Obviamente, si digo que sí, **no me dará dinero**. No se trata de mí, al final. Se trata de que él **sí** está “clean” de nuevo. Nada que ver conmigo, más bien con lo que **ellos entienden que debo ser** para encajarme en **su mismo contexto**.
 
 ---
 
