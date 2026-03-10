@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Vértigos"
+date: 2026-03-10
+categories: reflexion
+---
+
+Tanto he corrido de mí que me he encontrado y placentero no es el admitir que no me ha agradado.
+
+Tenerte a ti mismo se torna extraño, solitario, te miras a los ojos y cuestionas 
+cada acto.
+
+¿ Soy bueno aprobando al malo ? O ¿ Es la víctima la que me hago ?  
+
+¿ Es mi libertad lo que me lleva a ser esclavo ?
+Romper la cadena es comprensible pero ¿ Cuál es el camino de todos los posibles? 
+
+Cuando corres de ti solo existe un continuo presente  y siempre es el más conveniente.
+
+Aún así por más que lo disfrute no lo vi convincente.  Igual el dolor necesita respirar y el continuo aleja a la gente. 
+Los que de verdad te aman, los que te tienen presente. 
+
+Comprendí  que escapar de ti siempre estará disponible,  el mal estará ahí. 
+Pero no hay méritos en el mal, el mérito reside en luchar, llorar, esperar, comprender, respetar y comprender que tú buen obrar es sujeto a interpretar.
+
+Unos verán debilidad, otros oportunidades y es natural porque no se te mira desde lo que eres sino de lo que ellos son. Es natural. 
+
+Cuando te encuentras, no es que la soledad sea triste,  es que te reconoces y con ello te ubicas en tu espacio y los demás existen en los de ellos. Es la vivida imagen del los extraños compartiendo el mismo destino en el vagón del metro.
+
+El verdadero reto entonces es amarse uno mismo y con ello poder amar desde nuestras posturas y sin juicios. Vivimos en un mundo donde todos corren y no hay tiempo para el verdadero amar.
+
+Corre de ti el tiempo que sea necesario, en algún lugar de ese maratón estarás tú esperándote. Asume con responsabilidad y sin temor ignorar el escapar.
+
+No aseguro que resistir te haga feliz pero  si te aseguro que escapar te puede destruir.
