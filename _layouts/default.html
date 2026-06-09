@@ -1,38 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
-{% include head.html %}
-<body>
-  <div class="site-frame">
-    {% include header.html %}
-    {% include mobile_menu.html %}
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Seaweed+Script&display=swap" rel="stylesheet">
+    <script src="/assets/js/colibri.js"></script>
+    <script data-goatcounter="https://don3b.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+    <link rel="stylesheet" href="/assets/css/colibri.css">  
+    <style>
+      body {
+        font-family: 'Nunito', sans-serif;
+        background: #fefae8 url('/assets/images/taino_pattern.svg') top left repeat;
+        color: #1a1a1a;
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        line-height: 1.6;
+      }
+      header {
+        background: linear-gradient(to right, #ffa500, #ff6347);
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      header h1 {
+        font-family: 'Seaweed Script', cursive;
+        font-size: 2rem;
+        margin: 0;
+      }
+      a {
+        color: #008080;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post {
+        margin-bottom: 2rem;
+      }
+      .post-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #ff5722;
+      }
+      pre {
+        background: #f0f0f0;
+        padding: 1rem;
+        overflow-x: auto;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      hr.decorado {
+        border: none;
+        height: 40px;
+        background: url('/assets/images/cemi-separador.png') center center no-repeat;
+        background-size: 40px;
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+    </header>
+    {{ content }}
 
-    <main class="main" id="main-content">
-      {{ content }}
-    </main>
-  </div>
-
-  <aside class="site-widgets" aria-label="Extras del sitio">
     <div id="colibri"></div>
     <div id="flor-fondo"></div>
+</div>
+
 
     <div id="visitas-container">
-      👁️ <span id="stats">0</span> visitas
-    </div>
+  👁️ <span id="stats">0</span> visitas
+</div>
 
-    <div id="frase-container">
-      <p id="frase-texto"></p>
-      <div class="botones-container">
-        <button id="like-btn" class="btn-interactivo">❤️ Like</button>
-        <span id="like-count" class="contador"></span>
-        <button id="seguir-btn" class="btn-interactivo introspectivo">
-          <span class="texto">Seguir reflexionando...</span>
-          <span class="icono">🌱</span>
-        </button>
-      </div>
-    </div>
-  </aside>
+<script>
+  let r = new XMLHttpRequest();
+  r.addEventListener('load', function () {
+    const data = JSON.parse(this.responseText);
+    document.querySelector('#stats').innerText = data.count;
+  });
 
-  {% include footer.html %}
-  {% include js.html %}
-</body>
+  let path = 'TOTAL'; // 👈 esto muestra todas las visitas del sitio
+  r.open('GET', 'https://don3b.goatcounter.com/counter/' + encodeURIComponent(path) + '.json');
+  r.send();
+</script>
+<div id="frase-container">
+  <p id="frase-texto" style="font-style: italic;"></p>
+  <div class="botones-container">
+    <button id="like-btn" class="btn-interactivo">❤️ Like</button>
+    <span id="like-count" class="contador"></span>
+    <button id="seguir-btn" class="btn-interactivo introspectivo">
+      <span class="texto">Seguir reflexionando...</span>
+      <span class="icono">🌱</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .botones-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .btn-interactivo {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  #like-btn {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  #like-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+  }
+  
+  .contador {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .introspectivo {
+    position: relative;
+    background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+    color: #2e7d32;
+    padding: 8px 20px 8px 15px;
+    overflow: hidden;
+  }
+  
+  .introspectivo .icono {
+    transition: all 0.5s ease;
+  }
+  
+  .introspectivo:hover {
+    background: linear-gradient(145deg, #e8f5e9, #c8e6c9);
+    animation: vibracion-sutil 0.3s linear;
+  }
+  
+  .introspectivo:hover .icono {
+    transform: rotate(10deg) scale(1.2);
+  }
+  
+  .introspectivo:active {
+    transform: scale(0.98);
+  }
+  
+  @keyframes vibracion-sutil {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px); }
+    75% { transform: translateX(1px); }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const CSV_URL = "https://raw.githubusercontent.com/burdier/burdier.github.io/master/assets/frases_neutras.csv";
+    const randomId = Math.floor(Math.random() * 500) + 1;
+
+    const fraseTexto = document.getElementById("frase-texto");
+    const likeBtn = document.getElementById("like-btn");
+    const likeCount = document.getElementById("like-count");
+    const seguirBtn = document.getElementById("seguir-btn");
+
+    const likeKey = `like_frase_${randomId}`;
+
+    fetch(CSV_URL)
+      .then(response => response.text())
+      .then(csv => {
+        const lines = csv.trim().split("\n").slice(1);
+        const fraseLine = lines[randomId - 1];
+        if (!fraseLine) return;
+        const [id, text, likes] = fraseLine.split(",");
+
+        fraseTexto.textContent = text;
+        let currentLikes = parseInt(localStorage.getItem(likeKey) || likes);
+        likeCount.textContent = `${currentLikes} ❤️`;
+
+        likeBtn.addEventListener("click", () => {
+          currentLikes += 1;
+          localStorage.setItem(likeKey, currentLikes);
+          likeCount.textContent = `${currentLikes} ❤️`;
+          likeBtn.disabled = true;
+          likeBtn.style.transform = "scale(1.1)";
+          setTimeout(() => { likeBtn.style.transform = "scale(1)"; }, 200);
+        });
+
+        seguirBtn.addEventListener("click", () => {
+          // Efecto visual al hacer clic
+          seguirBtn.style.animation = "none";
+          setTimeout(() => {
+            seguirBtn.style.animation = "vibracion-sutil 0.4s linear";
+          }, 10);
+          
+          // Mensaje introspectivo
+          const mensajes = [
+            "La reflexión continúa...",
+            "Profundizando...",
+            "Explorando ideas...",
+            "Siguiendo el hilo...",
+            "Pensamiento en progreso..."
+          ];
+          const randomMsg = mensajes[Math.floor(Math.random() * mensajes.length)];
+          seguirBtn.querySelector(".texto").textContent = randomMsg;
+          
+          // Recargar nueva frase después de 1.5 segundos
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        });
+      })
+      .catch(err => {
+        fraseTexto.textContent = "No se pudo cargar la frase.";
+        console.error(err);
+      });
+  });
+</script>
+    
+  develop by: Burdier 👌
+  </body>
 </html>

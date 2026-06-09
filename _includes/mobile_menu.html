@@ -1,10 +1,19 @@
-<nav class="mobile_menu" aria-label="Navegación móvil">
-  <a href="{{ '/' | relative_url }}">Artículos</a>
-  {% if site.user.aboutme %}
-  <a href="{{ '/aboutme.html' | relative_url }}">About</a>
-  {% endif %}
-  {% for category in site.categories %}
+<nav class="mobile_menu">
+
+  <ul class="nav_list">
+    {% if site.user.aboutme %}
+    <li class="nav_item">
+      <a href="{{ site.baseurl }}/aboutme.html">about</a>
+    </li>
+
+    {% endif %}
+    {% for category in site.categories %}
     {% capture cat_name %}{{ category | first }}{% endcapture %}
-    <a href="{{ '/categories/' | append: cat_name | append: '.html' | relative_url }}">{{ cat_name }}</a>
-  {% endfor %}
+
+    <li class="nav_item">
+      <a href="{{ site.baseurl }}/categories/{{ cat_name }}" id="aa">{{ cat_name }} ({{ category | last | size }})</a>
+    </li>
+    {% endfor %}
+  </ul>
+
 </nav>
