@@ -3,9 +3,21 @@ layout: default
 ---
 
 <article class="post">
-  <h2>{{ page.title }}</h2>
-  <p><small>{{ page.date | date: "%d %b %Y" }}</small></p>
-  <div>
+  <header class="post_header">
+    <h1 class="post_title">{{ page.title }}</h1>
+    <p class="post_data">
+      <time class="post_date" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d %b %Y" }}</time>
+      {% if page.categories and page.categories.size > 0 %}
+      <span class="post_categories">
+        {% for category in page.categories %}
+        <a href="{{ '/categories/' | append: category | relative_url }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </p>
+  </header>
+
+  <div class="post_content">
     {{ content }}
   </div>
 </article>
