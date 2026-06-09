@@ -1,36 +1,21 @@
 <header class="header">
+  <a class="header_avatar" href="{{ '/' | relative_url }}" aria-label="Ir al inicio">
+    <img src="{{ site.user.pic | relative_url }}" alt="{{ site.user.picAlt }}">
+  </a>
 
-  <div class="header_content">
-    <label class="theme_changer">
-      <input theme_toggle type="checkbox">
-      <div class="button"></div>
-    </label>
-    <a class="header_circle" href="{{ '/' | relative_url }}">
-      <img src="{{ site.user.pic | relative_url }}" alt="{{ site.user.picAlt }}">
-    </a>
-    <span class="header_name">{{ site.user.name }}</span>
-    <span class="header_job">{{ site.user.job }}</span>
-    <span class="header_mes">{{ site.user.message }}</span>
-
-    <nav class="nav">
-      {% if site.user.aboutme %}
-      <ul class="nav_list">
-        <li class="nav_item">
-          <a href="{{ site.baseurl }}/aboutme.html">about</a>
-        </li>
-      </ul>
-      {% endif %}
-      {% for category in site.categories %}
-      {% capture cat_name %}{{ category | first }}{% endcapture %}
-      <ul class="nav_list">
-        <li class="nav_item">
-          <a href="{{ site.baseurl }}/categories/{{ cat_name }}" id="aa">{{ cat_name }}
-            ({{ category | last | size }})</a>
-        </li>
-      </ul>
-      {% endfor %}
-    </nav>
+  <div class="header_identity">
+    <h1 class="header_name"><a href="{{ '/' | relative_url }}">{{ site.user.name }}</a></h1>
+    <p class="header_job">{{ site.description }}</p>
   </div>
 
+  <nav class="nav" aria-label="Navegación principal">
+    <a href="{{ '/' | relative_url }}">Artículos</a>
+    {% if site.user.aboutme %}
+    <a href="{{ '/aboutme.html' | relative_url }}">About</a>
+    {% endif %}
+    {% for category in site.categories %}
+      {% capture cat_name %}{{ category | first }}{% endcapture %}
+      <a href="{{ '/categories/' | append: cat_name | append: '.html' | relative_url }}">{{ cat_name }}</a>
+    {% endfor %}
+  </nav>
 </header>
-
