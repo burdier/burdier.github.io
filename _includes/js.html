@@ -1,71 +1,68 @@
-<!-- js from https://codepen.io/MrGrigri/pen/XQmWBv -->
-
+<script src="{{ '/assets/js/colibri.js' | relative_url }}" defer></script>
 <script>
 // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat
-    const themePreference = () => {
-        const hasLocalStorage = localStorage.getItem('theme');
-        let supports = false;
-        let theme = undefined;
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.hljs) window.hljs.highlightAll();
 
-        if (hasLocalStorage === 'light') {
-            theme = 'light';
-        }
-        if (hasLocalStorage === 'dark') {
-            theme = 'dark';
-        }
+  const html = document.documentElement;
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const storedTheme = localStorage.getItem('theme');
+  html.classList.toggle('dark', storedTheme ? storedTheme === 'dark' : prefersDark);
+  html.classList.toggle('light', storedTheme ? storedTheme === 'light' : !prefersDark);
 
-        if (window.matchMedia(`(prefers_color: dark)`).matches) {
-            theme = hasLocalStorage ? hasLocalStorage : 'dark';
-            supports = true;
-        };
-        if (window.matchMedia(`(prefers_color: light)`).matches) {
-            theme = hasLocalStorage ? hasLocalStorage : 'light';
-            supports = true;
-        };
-        if (window.matchMedia(`(prefers_color: no-preference)`).matches) {
-            theme = hasLocalStorage ? hasLocalStorage : 'none';
-            supports = true;
-        };
+  const stats = document.querySelector('#stats');
+  if (stats) {
+    const request = new XMLHttpRequest();
+    request.addEventListener('load', function () {
+      try {
+        const data = JSON.parse(this.responseText);
+        stats.innerText = data.count;
+      } catch (_) {
+        stats.innerText = '—';
+      }
+    });
+    request.open('GET', 'https://don3b.goatcounter.com/counter/' + encodeURIComponent('TOTAL') + '.json');
+    request.send();
+  }
 
-        return {
-            supports,
-            theme
-        };
-    }
+  const fraseTexto = document.getElementById('frase-texto');
+  const likeBtn = document.getElementById('like-btn');
+  const likeCount = document.getElementById('like-count');
+  const seguirBtn = document.getElementById('seguir-btn');
 
-    document.addEventListener('DOMContentLoaded', e => {
-        console.clear();
+  if (fraseTexto && likeBtn && likeCount && seguirBtn) {
+    const csvUrl = '{{ "/assets/frases_neutras.csv" | relative_url }}';
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(csv => {
+        const lines = csv.trim().split('\n').slice(1);
+        if (!lines.length) return;
+        const randomId = Math.floor(Math.random() * lines.length);
+        const fraseLine = lines[randomId];
+        const [id, text, likes] = fraseLine.split(',');
+        const likeKey = `like_frase_${id || randomId}`;
+        let currentLikes = parseInt(localStorage.getItem(likeKey) || likes || '0', 10);
 
-        const userThemePreference = themePreference();
-        const toggle = document.querySelector('[theme_toggle]');
-        const html = document.documentElement;
+        fraseTexto.textContent = text || 'La reflexión continúa...';
+        likeCount.textContent = `${currentLikes} ❤️`;
 
-        const setTheme = () => {
-            switch (userThemePreference.theme) {
-                case 'dark':
-                    toggle.checked = true;
-                    html.classList.add('dark');
-                    html.classList.remove('light');
-                    break;
-                case 'light':
-                    toggle.checked = false;
-                    html.classList.remove('dark');
-                    html.classList.add('light');
-                    break;
-            }
-        }
-        setTheme();
-        toggle.addEventListener('click', e => {
-            if (toggle.checked) {
-                html.classList.add('dark');
-                html.classList.remove('light');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                localStorage.setItem('theme', 'light');
-            }
-        }, false);
-    }, false);
+        likeBtn.addEventListener('click', () => {
+          currentLikes += 1;
+          localStorage.setItem(likeKey, currentLikes);
+          likeCount.textContent = `${currentLikes} ❤️`;
+          likeBtn.disabled = true;
+        });
+
+        seguirBtn.addEventListener('click', () => {
+          const mensajes = ['La reflexión continúa...', 'Profundizando...', 'Explorando ideas...', 'Siguiendo el hilo...'];
+          seguirBtn.querySelector('.texto').textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
+          window.setTimeout(() => window.location.reload(), 900);
+        });
+      })
+      .catch(() => {
+        fraseTexto.textContent = 'No se pudo cargar la frase.';
+      });
+  }
+});
 // @license-end
 </script>
