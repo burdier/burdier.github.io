@@ -2,6 +2,7 @@
 title: "Cómo usar mi app para músicos: Regal Ganache"
 categories: [herramientas, música, productividad]
 comments: true
+published: false
 ---
 
 > ⚠️ **Este post fue generado con la ayuda de inteligencia artificial (IA), y revisado manualmente antes de su publicación.**
