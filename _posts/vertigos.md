@@ -3,6 +3,7 @@ layout: post
 title: "Vértigos"
 date: 2026-03-10
 categories: reflexion
+published: false
 ---
 
 Tanto he corrido de mí que me he encontrado y placentero no es el admitir que no me ha agradado.
