@@ -13,6 +13,7 @@
     {% if site.user.aboutme %}
     <a href="{{ '/aboutme.html' | relative_url }}">About</a>
     {% endif %}
+    <a href="{{ '/portafolio/' | relative_url }}">Portafolio</a>
     {% for category in site.categories %}
       {% capture cat_name %}{{ category | first }}{% endcapture %}
       <a href="{{ '/categories/' | append: cat_name | relative_url }}">{{ cat_name }}</a>
