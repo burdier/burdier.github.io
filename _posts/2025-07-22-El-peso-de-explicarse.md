@@ -2,7 +2,6 @@
 title: El peso de explicarse.
 categories: [vida]
 comments: true
-published: false
 ---
 
 # Reflexión: El peso de explicarse
