@@ -452,3 +452,44 @@ pre code {
     margin-top: 0.2rem;
   }
 }
+
+.portfolio_kicker,
+.portfolio_contact {
+  color: var(--muted_color);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.86rem;
+}
+
+.portfolio_grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.portfolio_card {
+  padding: 1rem;
+  border: 1px solid var(--rule_color);
+  border-radius: 5px;
+  background: var(--panel_bg);
+  box-shadow: 0 10px 24px var(--shadow_color);
+}
+
+.portfolio_card h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.1rem;
+}
+
+.portfolio_card p {
+  margin: 0;
+}
+
+.portfolio_timeline {
+  list-style: square;
+}
+
+@media (max-width: 640px) {
+  .portfolio_grid {
+    grid-template-columns: 1fr;
+  }
+}
