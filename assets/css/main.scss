@@ -5,6 +5,7 @@
 @import 'normalize';
 @import 'code_style';
 @import 'flexible';
+@import 'garden_corner';
 
 /* Minimal technical-blog style inspired by staniks.github.io. */
 
@@ -493,5 +494,3 @@ pre code {
     grid-template-columns: 1fr;
   }
 }
-
-@import 'garden_corner';
