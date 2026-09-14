@@ -1,0 +1,63 @@
+/* Jardín decorativo: pequeño y puramente CSS para no interferir con el contenido. */
+/* La especificidad extra gana a las reglas antiguas de colibri.css, que carga después. */
+body #flor-fondo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: min(120px, 14vw);
+  height: 76px;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+  background: none;
+  opacity: 1;
+}
+
+body #flor-fondo::before,
+body #flor-fondo::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+body #flor-fondo::before {
+  right: -5px;
+  bottom: -7px;
+  left: -10px;
+  height: 22px;
+  border-radius: 55% 70% 0 0;
+  background:
+    repeating-linear-gradient(102deg, transparent 0 9px, #6f9843 10px 12px, transparent 13px 20px),
+    radial-gradient(ellipse at 25% 55%, #89a94b 0 20%, transparent 21%),
+    radial-gradient(ellipse at 65% 55%, #597f37 0 25%, transparent 26%),
+    linear-gradient(180deg, #6f953d, #355e2f);
+  filter: drop-shadow(0 -2px 3px rgba(35, 70, 28, 0.2));
+}
+
+body #flor-fondo::after {
+  inset: 0 0 7px;
+  background-image:
+    url('/assets/img/flower.gif'),
+    url('/assets/img/flower.gif'),
+    url('/assets/img/flower.gif');
+  background-repeat: no-repeat;
+  background-position: left bottom, 58% bottom, right bottom;
+  background-size: 54px 54px, 40px 40px, 46px 46px;
+  filter: drop-shadow(0 4px 3px rgba(20, 40, 18, 0.25));
+}
+
+@media (max-width: 640px) {
+  body #flor-fondo {
+    width: min(90px, 24vw);
+    height: 58px;
+  }
+
+  body #flor-fondo::before {
+    height: 18px;
+  }
+
+  body #flor-fondo::after {
+    bottom: 5px;
+    background-size: 42px 42px, 30px 30px, 35px 35px;
+  }
+}
