@@ -21,3 +21,8 @@
         @content;
     }
 }
+
+/* Se conserva únicamente el colibrí como elemento decorativo. */
+#flor-fondo {
+  display: none;
+}
