@@ -1,0 +1,62 @@
+/* Jardín decorativo: pequeño y puramente CSS para no interferir con el contenido. */
+#flor-fondo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: min(210px, 20vw);
+  height: 128px;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+  background: none;
+  opacity: 1;
+}
+
+#flor-fondo::before,
+#flor-fondo::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+#flor-fondo::before {
+  right: -5px;
+  bottom: -7px;
+  left: -10px;
+  height: 38px;
+  border-radius: 55% 70% 0 0;
+  background:
+    repeating-linear-gradient(102deg, transparent 0 9px, #6f9843 10px 12px, transparent 13px 20px),
+    radial-gradient(ellipse at 25% 55%, #89a94b 0 20%, transparent 21%),
+    radial-gradient(ellipse at 65% 55%, #597f37 0 25%, transparent 26%),
+    linear-gradient(180deg, #6f953d, #355e2f);
+  filter: drop-shadow(0 -2px 3px rgba(35, 70, 28, 0.2));
+}
+
+#flor-fondo::after {
+  inset: 0 0 12px;
+  background-image:
+    url('/assets/img/flower.gif'),
+    url('/assets/img/flower.gif'),
+    url('/assets/img/flower.gif');
+  background-repeat: no-repeat;
+  background-position: left bottom, 58% bottom, right bottom;
+  background-size: 94px 94px, 68px 68px, 78px 78px;
+  filter: drop-shadow(0 4px 3px rgba(20, 40, 18, 0.25));
+}
+
+@media (max-width: 640px) {
+  #flor-fondo {
+    width: min(130px, 32vw);
+    height: 80px;
+  }
+
+  #flor-fondo::before {
+    height: 25px;
+  }
+
+  #flor-fondo::after {
+    bottom: 8px;
+    background-size: 58px 58px, 42px 42px, 48px 48px;
+  }
+}
