@@ -1,125 +1,115 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const colibri = document.getElementById('colibri');
   if (!colibri) return;
 
-  const SIZE = 80;
-  const EDGE = 22;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let position = { x: window.innerWidth * 0.75, y: window.innerHeight * 0.25 };
-  let animationFrame;
-  let pauseTimer;
+  const BASE_SIZE = 80;
+  const MIN_SCALE = 0.6;
+  const MAX_SCALE = 1.8;
 
-  const scriptUrl = [...document.scripts]
-    .map(script => script.src)
-    .find(src => src.endsWith('/assets/js/colibri.js'));
-  const assetUrl = filename => scriptUrl
-    ? scriptUrl.replace('/js/colibri.js', `/img/${filename}`)
-    : `/assets/img/${filename}`;
+  // Parámetros de la oscilación
+  const Ax = 200; // amplitud en X (pixeles)
+  const Ay = 120; // amplitud en Y (pixeles)
 
-  colibri.style.backgroundImage = `url("${colibri.dataset.imageUrl || assetUrl('colibri.gif')}")`;
+  const omegaX = 0.7; // frecuencia angular en X (rad/s)
+  const omegaY = 1.1; // frecuencia angular en Y (rad/s)
 
-  const garden = document.getElementById('flor-fondo');
-  if (garden && !garden.firstElementChild) {
-    garden.setAttribute('aria-hidden', 'true');
-    garden.style.setProperty('--flower-image', `url("${assetUrl('flower.gif')}")`);
-    garden.innerHTML = [
-      '<span class="garden_grass"></span>',
-      '<span class="garden_flower garden_flower--left"></span>',
-      '<span class="garden_flower garden_flower--middle"></span>',
-      '<span class="garden_flower garden_flower--right"></span>'
-    ].join('');
+  const phiX = Math.random() * 2 * Math.PI; // fase inicial aleatoria
+  const phiY = Math.random() * 2 * Math.PI;
+
+  // Margen para que el colibrí no salga de la pantalla
+  const margin = 150;
+
+  // Posición base inicial (centro pantalla)
+  let baseX = window.innerWidth / 2;
+  let baseY = window.innerHeight / 2;
+
+  // Punto objetivo inicial
+  let targetX = getRandomX();
+  let targetY = getRandomY();
+
+  // Velocidad de movimiento hacia objetivo (pixeles por segundo)
+  const moveSpeed = 100; 
+
+  // Configuración inicial del colibrí
+  colibri.style.position = 'fixed';
+  colibri.style.zIndex = '9999';
+  colibri.style.width = BASE_SIZE + 'px';
+  colibri.style.height = BASE_SIZE + 'px';
+  colibri.style.backgroundImage = "url('/assets/img/colibri.gif')";
+  colibri.style.backgroundSize = 'cover';
+  colibri.style.pointerEvents = 'none';
+  colibri.style.transformOrigin = 'center center';
+
+  let startTime = null;
+  let lastFrameTime = null;
+
+  function getRandomX() {
+    return Math.random() * (window.innerWidth - 2 * margin) + margin;
   }
 
-  function randomPoint() {
-    return {
-      x: EDGE + Math.random() * Math.max(1, window.innerWidth - SIZE - EDGE * 2),
-      y: EDGE + Math.random() * Math.max(1, window.innerHeight - SIZE - EDGE * 2)
-    };
+  function getRandomY() {
+    return Math.random() * (window.innerHeight - 2 * margin) + margin;
   }
 
-  // Elige texto visible en la ventana y usa su borde superior como una ramita.
-  function textPerch() {
-    const candidates = [...document.querySelectorAll(
-      '.post_title, .post_content p, .post_content li, .post_content h2, .post_content h3, .page p, .archive_title'
-    )].filter(element => {
-      const rect = element.getBoundingClientRect();
-      return rect.width > 80 && rect.top > SIZE && rect.top < window.innerHeight - 20;
-    });
+  function moveBase(deltaTime) {
+    const dx = targetX - baseX;
+    const dy = targetY - baseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
 
-    if (!candidates.length) return null;
-    const rect = candidates[Math.floor(Math.random() * candidates.length)].getBoundingClientRect();
-    const availableWidth = Math.max(0, rect.width - SIZE);
-    return {
-      x: Math.max(EDGE, Math.min(window.innerWidth - SIZE - EDGE, rect.left + Math.random() * availableWidth)),
-      y: Math.max(EDGE, rect.top - SIZE * 0.72)
-    };
-  }
-
-  function draw(point, flip, resting = false) {
-    colibri.style.transform = `translate3d(${point.x}px, ${point.y}px, 0) scaleX(${flip})`;
-    colibri.classList.toggle('is-resting', resting);
-  }
-
-  function flyTo(destination, shouldRest) {
-    const origin = { ...position };
-    const dx = destination.x - origin.x;
-    const dy = destination.y - origin.y;
-    const distance = Math.hypot(dx, dy);
-    const duration = Math.min(4200, Math.max(1700, distance * 5));
-    const startedAt = performance.now();
-    const flip = dx >= 0 ? 1 : -1;
-
-    function frame(now) {
-      const progress = Math.min(1, (now - startedAt) / duration);
-      const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
-      // La curva y el aleteo hacen que pueda viajar arriba, abajo, izquierda y derecha.
-      const arc = Math.sin(progress * Math.PI) * Math.min(70, distance * 0.16);
-      position = {
-        x: origin.x + dx * eased,
-        y: origin.y + dy * eased - arc + Math.sin(progress * Math.PI * 8) * 4
-      };
-      draw(position, flip);
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(frame);
-      } else if (shouldRest) {
-        position = destination;
-        rest(flip);
+    if (dist < 5) {
+      // Llegó cerca, elegir nuevo objetivo
+      targetX = getRandomX();
+      targetY = getRandomY();
+    } else {
+      // Mover base hacia target suavemente
+      const moveDist = moveSpeed * deltaTime;
+      if (moveDist >= dist) {
+        baseX = targetX;
+        baseY = targetY;
       } else {
-        pauseTimer = window.setTimeout(nextFlight, 250 + Math.random() * 650);
+        baseX += (dx / dist) * moveDist;
+        baseY += (dy / dist) * moveDist;
       }
     }
-
-    animationFrame = requestAnimationFrame(frame);
   }
 
-  function rest(flip) {
-    draw(position, flip, true);
-    pauseTimer = window.setTimeout(() => {
-      colibri.classList.remove('is-resting');
-      nextFlight();
-    }, 1800 + Math.random() * 2600);
+  function animate(time) {
+    if (!startTime) startTime = time;
+    if (!lastFrameTime) lastFrameTime = time;
+    const t = (time - startTime) / 1000; // tiempo en segundos
+    const deltaTime = (time - lastFrameTime) / 1000;
+    lastFrameTime = time;
+
+    // Mover la posición base hacia el objetivo
+    moveBase(deltaTime);
+
+    // Posición con oscilación respecto a la base
+    const x = baseX + Ax * Math.sin(omegaX * t + phiX);
+    const y = baseY + Ay * Math.cos(omegaY * t + phiY);
+
+    // Escala según la altura (más alto = más grande)
+    const scale = MIN_SCALE + ((Ay - (y - baseY)) / (2 * Ay)) * (MAX_SCALE - MIN_SCALE);
+
+    // Dirección para flip horizontal según velocidad X instantánea
+    const dx = Ax * omegaX * Math.cos(omegaX * t + phiX);
+    const flip = dx >= 0 ? 1 : -1;
+
+    colibri.style.left = `${x - (BASE_SIZE/2) * scale}px`;
+    colibri.style.top = `${y - (BASE_SIZE/2) * scale}px`;
+    colibri.style.transform = `scaleX(${flip}) scale(${scale.toFixed(3)})`;
+
+    requestAnimationFrame(animate);
   }
 
-  function nextFlight() {
-    const perch = Math.random() < 0.38 ? textPerch() : null;
-    flyTo(perch || randomPoint(), Boolean(perch));
-  }
+  animate();
 
-  if (reducedMotion) {
-    position = textPerch() || position;
-    draw(position, 1, true);
-  } else {
-    draw(position, -1);
-    nextFlight();
-  }
-
+  // Actualizar márgenes al redimensionar ventana
   window.addEventListener('resize', () => {
-    window.cancelAnimationFrame(animationFrame);
-    window.clearTimeout(pauseTimer);
-    position.x = Math.min(position.x, window.innerWidth - SIZE - EDGE);
-    position.y = Math.min(position.y, window.innerHeight - SIZE - EDGE);
-    if (reducedMotion) draw(position, 1, true);
-    else nextFlight();
+    if (baseX > window.innerWidth - margin) baseX = window.innerWidth - margin;
+    if (baseX < margin) baseX = margin;
+    if (baseY > window.innerHeight - margin) baseY = window.innerHeight - margin;
+    if (baseY < margin) baseY = margin;
+    targetX = getRandomX();
+    targetY = getRandomY();
   });
 });
