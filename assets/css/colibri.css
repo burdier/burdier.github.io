@@ -1,17 +1,16 @@
 #colibri {
   position: fixed;
-  width: 150px;
-  height: 150px;
-  background-image: url('/assets/img/colibri.gif');
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
   background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 2.5s ease-in-out;
   will-change: transform;
 }
-
-
-
 
 #flor-fondo {
   position: fixed;
@@ -29,12 +28,9 @@
 }
 
 
-#colibri {
-  transition: transform 0.3s ease-out;
-  will-change: transform; /* Optimización de rendimiento */
+#colibri.is-resting {
+  filter: drop-shadow(0 5px 3px rgba(0, 0, 0, 0.2));
 }
-
-
 
 #stats-wrapper {
   position: fixed;
@@ -78,5 +74,18 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,255,255,0.3);
   z-index: 1000;
+}
+
+@media (max-width: 640px) {
+  #colibri {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #colibri {
+    will-change: auto;
+  }
 }
 
