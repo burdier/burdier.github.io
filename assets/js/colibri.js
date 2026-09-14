@@ -9,7 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
   let animationFrame;
   let pauseTimer;
 
-  colibri.style.backgroundImage = `url("${colibri.dataset.imageUrl}")`;
+  const scriptUrl = [...document.scripts]
+    .map(script => script.src)
+    .find(src => src.endsWith('/assets/js/colibri.js'));
+  const assetUrl = filename => scriptUrl
+    ? scriptUrl.replace('/js/colibri.js', `/img/${filename}`)
+    : `/assets/img/${filename}`;
+
+  colibri.style.backgroundImage = `url("${colibri.dataset.imageUrl || assetUrl('colibri.gif')}")`;
+
+  const garden = document.getElementById('flor-fondo');
+  if (garden && !garden.firstElementChild) {
+    garden.setAttribute('aria-hidden', 'true');
+    garden.style.setProperty('--flower-image', `url("${assetUrl('flower.gif')}")`);
+    garden.innerHTML = [
+      '<span class="garden_grass"></span>',
+      '<span class="garden_flower garden_flower--left"></span>',
+      '<span class="garden_flower garden_flower--middle"></span>',
+      '<span class="garden_flower garden_flower--right"></span>'
+    ].join('');
+  }
 
   function randomPoint() {
     return {

@@ -1,116 +1,40 @@
 #colibri {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
+  background-image: url('/assets/img/colibri.gif');
   background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
   pointer-events: none;
   z-index: 9999;
+  transition: transform 2.5s ease-in-out;
   will-change: transform;
 }
 
+
+
+
 #flor-fondo {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: min(340px, 42vw);
-  height: 205px;
-  pointer-events: none;
-  z-index: 10;
-  overflow: hidden;
-}
-
-#flor-fondo::before,
-#flor-fondo::after {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  transform-origin: bottom;
-}
-
-#flor-fondo::before {
-  right: -6px;
-  bottom: -14px;
-  left: -18px;
-  height: 64px;
-  border-radius: 55% 70% 0 0;
-  background:
-    radial-gradient(ellipse at 20% 45%, #89a94b 0 18%, transparent 19%),
-    radial-gradient(ellipse at 45% 55%, #597f37 0 24%, transparent 25%),
-    radial-gradient(ellipse at 70% 42%, #779c40 0 20%, transparent 21%),
-    linear-gradient(180deg, #6f953d, #355e2f);
-  filter: drop-shadow(0 -3px 5px rgba(35, 70, 28, 0.2));
-}
-
-#flor-fondo::after {
-  right: 2px;
-  bottom: 24px;
-  left: 8px;
-  height: 52px;
-  background: repeating-linear-gradient(
-    102deg,
-    transparent 0 9px,
-    #6f9843 10px 12px,
-    transparent 13px 20px,
-    #91ad50 21px 23px,
-    transparent 24px 30px
-  );
-  clip-path: polygon(0 100%, 3% 16%, 6% 100%, 10% 42%, 13% 100%, 18% 3%, 21% 100%, 27% 32%, 30% 100%, 36% 8%, 39% 100%, 45% 40%, 48% 100%, 54% 0, 57% 100%, 64% 28%, 67% 100%, 73% 10%, 76% 100%, 83% 38%, 86% 100%, 93% 12%, 96% 100%);
-}
-
-.garden_grass {
-  position: absolute;
-  right: 5%;
-  bottom: 12px;
-  left: 4%;
-  z-index: 3;
-  height: 25px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, #486f34 0 48%, transparent 50%);
-  opacity: 0.9;
-}
-
-.garden_flower {
-  position: absolute;
-  bottom: 19px;
-  z-index: 2;
-  display: block;
-  width: 150px;
+  bottom: 20px;      /* Ajusta verticalmente */
+  left: 20px;        /* Ajusta horizontalmente */
+  width: 150px;      /* Tamaño de la flor */
   height: 150px;
-  background: var(--flower-image) center bottom / contain no-repeat;
-  filter: drop-shadow(0 5px 4px rgba(20, 40, 18, 0.25));
+  background-image: url('/assets/img/flower.gif'); /* Cambia ruta a tu gif */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;  /* Para que no interfiera con clicks */
+  z-index: 10;           /* Asegura que quede encima o debajo según necesites */
+  opacity: 0.8;          /* Opcional: un poco transparente */
 }
 
-.garden_flower--left {
-  left: 5px;
+
+#colibri {
+  transition: transform 0.3s ease-out;
+  will-change: transform; /* Optimización de rendimiento */
 }
 
-.garden_flower--middle {
-  left: 98px;
-  bottom: 9px;
-  width: 108px;
-  height: 108px;
-  transform: scaleX(-1) rotate(-4deg);
-  opacity: 0.92;
-  filter: hue-rotate(18deg) drop-shadow(0 5px 4px rgba(20, 40, 18, 0.25));
-}
 
-.garden_flower--right {
-  left: 188px;
-  bottom: 10px;
-  width: 128px;
-  height: 128px;
-  transform: rotate(5deg);
-  opacity: 0.88;
-  filter: hue-rotate(-14deg) drop-shadow(0 5px 4px rgba(20, 40, 18, 0.25));
-}
-
-#colibri.is-resting {
-  filter: drop-shadow(0 5px 3px rgba(0, 0, 0, 0.2));
-}
 
 #stats-wrapper {
   position: fixed;
@@ -156,22 +80,3 @@
   z-index: 1000;
 }
 
-@media (max-width: 640px) {
-  #colibri {
-    width: 64px;
-    height: 64px;
-  }
-
-  #flor-fondo {
-    width: 230px;
-    height: 155px;
-    transform: scale(0.82);
-    transform-origin: left bottom;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #colibri {
-    will-change: auto;
-  }
-}
