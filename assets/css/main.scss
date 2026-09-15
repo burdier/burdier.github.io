@@ -489,9 +489,311 @@ pre code {
   list-style: square;
 }
 
+/* Radio */
+.radio {
+  --radio-accent: #e8623b;
+  max-width: 720px;
+}
+
+.radio_intro {
+  margin-bottom: 1.75rem;
+}
+
+.radio_intro h1 {
+  margin: 0.25rem 0 0.65rem;
+  font-size: clamp(2.4rem, 9vw, 4.8rem);
+  letter-spacing: -0.065em;
+}
+
+.radio_intro > p:last-child {
+  max-width: 560px;
+  margin: 0;
+  color: var(--muted_color);
+}
+
+.radio_eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  color: var(--radio-accent);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.radio_eyebrow span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--radio-accent);
+  box-shadow: 0 0 0 5px rgba(232, 98, 59, 0.16);
+}
+
+.radio_player {
+  overflow: hidden;
+  border: 1px solid var(--rule_color);
+  border-radius: 8px;
+  background: var(--panel_bg);
+  box-shadow: 8px 10px 0 var(--shadow_color);
+}
+
+.radio_screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #111;
+}
+
+.radio_screen::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.6));
+}
+
+.page .radio_cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  object-fit: cover;
+  box-shadow: none;
+}
+
+.page .radio_cover[hidden] {
+  display: none;
+}
+
+.radio_cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  color: #fff;
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255, 190, 91, 0.78), transparent 23%),
+    linear-gradient(135deg, #e86431 0%, #8d204d 48%, #171329 100%);
+}
+
+.radio_cover-placeholder[hidden] {
+  display: none;
+}
+
+.radio_cover-placeholder span {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+}
+
+.radio_cover-placeholder strong {
+  max-width: 75%;
+  margin-top: 0.2rem;
+  font-size: clamp(1.8rem, 7vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.radio_play {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 68px;
+  height: 68px;
+  padding: 0 0 0 4px;
+  transform: translate(-50%, -50%);
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(17, 17, 17, 0.72);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.radio_play:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  background: var(--radio-accent);
+}
+
+.radio_video,
+.radio_video iframe {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.radio_frequency {
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  bottom: 0.75rem;
+  color: #fff;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.radio_info {
+  position: relative;
+  padding: 1.35rem 1.5rem 1.1rem;
+}
+
+.radio_info h2 {
+  margin: 0.18rem 4rem 0.15rem 0;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  letter-spacing: -0.045em;
+}
+
+.radio_style,
+.radio_artist,
+.radio_count {
+  font-family: "JetBrains Mono", Consolas, monospace;
+}
+
+.radio_style,
+.radio_artist {
+  margin: 0;
+  color: var(--muted_color);
+  font-size: 0.76rem;
+}
+
+.radio_style {
+  color: var(--radio-accent);
+  text-transform: uppercase;
+}
+
+.radio_count {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: var(--muted_color);
+  font-size: 0.72rem;
+}
+
+.radio_controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  border-top: 1px solid var(--rule_color);
+}
+
+.radio_controls button {
+  padding: 0.9rem 1rem;
+  border: 0;
+  color: var(--text_color);
+  background: transparent;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.radio_controls button + button {
+  border-left: 1px solid var(--rule_color);
+}
+
+.radio_controls button:last-child {
+  text-align: right;
+}
+
+.radio_controls button:hover:not(:disabled) {
+  color: var(--radio-accent);
+  background: var(--content_bg);
+}
+
+.radio_controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.radio_queue {
+  margin-top: 2.75rem;
+}
+
+.radio_queue-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule_color);
+}
+
+.radio_queue-heading h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.radio_queue-heading span {
+  color: var(--muted_color);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.radio_queue ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.radio_queue button {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.85rem 0.5rem;
+  border: 0;
+  border-bottom: 1px dashed var(--rule_color);
+  color: var(--text_color);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.radio_queue button:hover,
+.radio_queue button.is-current {
+  color: var(--radio-accent);
+  background: var(--panel_bg);
+}
+
+.radio_queue button span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio_queue-number,
+.radio_queue small,
+.radio_queue-play {
+  color: var(--muted_color);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.68rem;
+}
+
+.radio_queue strong {
+  font-size: 0.9rem;
+}
+
 @media (max-width: 640px) {
   .portfolio_grid {
     grid-template-columns: 1fr;
+  }
+
+  .radio_info {
+    padding-inline: 1rem;
+  }
+
+  .radio_count {
+    right: 1rem;
   }
 }
 
