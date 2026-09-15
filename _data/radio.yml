@@ -9,7 +9,8 @@
 - url: "https://audiomack.com/lmbmusiclmb/album/there-is-no-way"
   title: "There is No way!"
   artist: "Don 3B"
-  style: "Álbum · Audiomack"
+  style: "Proyecto completo"
+  type: "album"
   platform: "audiomack"
 
 - url: "https://www.youtube.com/shorts/Y4TMPkI2KOk"
