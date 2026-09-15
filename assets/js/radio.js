@@ -22,6 +22,29 @@
     queue: document.querySelector('[data-radio-queue]')
   };
   let currentIndex = 0;
+  let activePlayer = null;
+  let playbackRequest = 0;
+  let youtubeApiPromise = null;
+
+  const loadYouTubeApi = () => {
+    if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+    if (youtubeApiPromise) return youtubeApiPromise;
+
+    youtubeApiPromise = new Promise((resolve, reject) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === 'function') previousReady();
+        resolve(window.YT);
+      };
+
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.dataset.youtubeIframeApi = '';
+      script.onerror = () => reject(new Error('No se pudo cargar el reproductor de YouTube.'));
+      document.head.append(script);
+    });
+    return youtubeApiPromise;
+  };
 
   const getVideoId = (url) => {
     try {
@@ -49,28 +72,61 @@
   };
 
   const stopVideo = () => {
+    playbackRequest += 1;
+    if (activePlayer && typeof activePlayer.destroy === 'function') activePlayer.destroy();
+    activePlayer = null;
     elements.video.replaceChildren();
     elements.video.classList.remove('is-playing');
     elements.coverPlay.hidden = false;
   };
 
-  const play = () => {
+  const play = async () => {
+    const requestId = playbackRequest;
     const track = tracks[currentIndex];
     const platform = getPlatform(track);
     const videoId = platform === 'youtube' ? getVideoId(track.url) : '';
-    const embedUrl = platform === 'audiomack'
-      ? getAudiomackEmbed(track.url)
-      : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
-    if (!embedUrl || (platform === 'youtube' && !videoId)) return;
+    if (platform === 'youtube' && !videoId) return;
 
-    const iframe = document.createElement('iframe');
-    iframe.src = embedUrl;
-    iframe.title = `${track.title} — ${track.artist}`;
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
-    elements.video.replaceChildren(iframe);
     elements.video.classList.add('is-playing');
     elements.coverPlay.hidden = true;
+
+    if (platform === 'youtube') {
+      try {
+        const YT = await loadYouTubeApi();
+        if (requestId !== playbackRequest) return;
+        const mount = document.createElement('div');
+        elements.video.replaceChildren(mount);
+        activePlayer = new YT.Player(mount, {
+          host: 'https://www.youtube-nocookie.com',
+          videoId,
+          playerVars: { autoplay: 1, rel: 0 },
+          events: {
+            onReady: (event) => event.target.playVideo(),
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.ENDED) playNext();
+            }
+          }
+        });
+      } catch (_) {
+        elements.video.classList.remove('is-playing');
+        elements.coverPlay.hidden = false;
+      }
+      return;
+    }
+
+    const embedUrl = getAudiomackEmbed(track.url);
+    if (!embedUrl) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `${embedUrl}?autoplay=1`;
+    iframe.title = `${track.title} — ${track.artist}`;
+    iframe.allow = 'autoplay; encrypted-media';
+    iframe.allowFullscreen = true;
+    elements.video.replaceChildren(iframe);
+  };
+
+  const playNext = () => {
+    render(currentIndex + 1);
+    play();
   };
 
   const render = (index) => {
@@ -113,14 +169,20 @@
     button.innerHTML = `<span class="radio_queue-number">${String(index + 1).padStart(2, '0')}</span><span><strong></strong><small></small></span><span class="radio_queue-play" aria-hidden="true">▶</span>`;
     button.querySelector('strong').textContent = track.title;
     button.querySelector('small').textContent = track.artist;
-    button.addEventListener('click', () => render(index));
+    button.addEventListener('click', () => {
+      render(index);
+      play();
+    });
     item.append(button);
     elements.queue.append(item);
   });
 
   elements.coverPlay.addEventListener('click', play);
   elements.mainPlay.addEventListener('click', play);
-  elements.previous.addEventListener('click', () => render(currentIndex - 1));
-  elements.next.addEventListener('click', () => render(currentIndex + 1));
+  elements.previous.addEventListener('click', () => {
+    render(currentIndex - 1);
+    play();
+  });
+  elements.next.addEventListener('click', playNext);
   render(0);
 })();
