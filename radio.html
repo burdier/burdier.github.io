@@ -1,0 +1,49 @@
+---
+layout: page
+title: Radio
+permalink: /radio/
+---
+
+<section class="radio" aria-labelledby="radio-title">
+  <header class="radio_intro">
+    <p class="radio_eyebrow"><span aria-hidden="true"></span> ON AIR</p>
+    <h1 id="radio-title">Don 3B Radio</h1>
+    <p>Beats para escuchar mientras lees, trabajas o dejas que llegue la próxima idea.</p>
+  </header>
+
+  <div class="radio_player" data-radio-player>
+    <div class="radio_screen">
+      <img class="radio_cover" data-radio-cover src="" alt="">
+      <button class="radio_play" data-radio-play type="button" aria-label="Reproducir beat">
+        <span aria-hidden="true">▶</span>
+      </button>
+      <div class="radio_video" data-radio-video></div>
+      <span class="radio_frequency">DON3B · 93.7 FM</span>
+    </div>
+
+    <div class="radio_info" aria-live="polite">
+      <span class="radio_count" data-radio-count></span>
+      <p class="radio_style" data-radio-style></p>
+      <h2 data-radio-title></h2>
+      <p class="radio_artist" data-radio-artist></p>
+    </div>
+
+    <div class="radio_controls" aria-label="Controles del reproductor">
+      <button type="button" data-radio-prev aria-label="Beat anterior">← <span>PREV</span></button>
+      <button type="button" data-radio-main-play aria-label="Reproducir beat"><span aria-hidden="true">▶</span> PLAY</button>
+      <button type="button" data-radio-next aria-label="Siguiente beat"><span>NEXT</span> →</button>
+    </div>
+  </div>
+
+  <div class="radio_queue">
+    <div class="radio_queue-heading">
+      <h2>En rotación</h2>
+      <span>{{ site.data.radio | size }} beat{% if site.data.radio.size != 1 %}s{% endif %}</span>
+    </div>
+    <ol data-radio-queue></ol>
+  </div>
+</section>
+
+<script id="radio-tracks" type="application/json">{{ site.data.radio | jsonify }}</script>
+<script src="{{ '/assets/js/radio.js' | relative_url }}" defer></script>
+
