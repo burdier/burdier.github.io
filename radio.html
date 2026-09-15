@@ -6,51 +6,47 @@ permalink: /radio/
 
 <section class="radio" aria-labelledby="radio-title">
   <header class="radio_intro">
-    <p class="radio_eyebrow"><span aria-hidden="true"></span> EL SONIDO DE DON 3B</p>
-    <h1 id="radio-title">Dale play.<br><em>Quédate un rato.</em></h1>
-    <p>Beats para bajar el ruido y entrar en tu zona. De mi estudio a tus audífonos.</p>
-    <div class="radio_station"><span>DON 3B RADIO</span><span>TRAP / DON 3B</span></div>
+    <p class="radio_eyebrow"><span aria-hidden="true"></span> ON AIR</p>
+    <h1 id="radio-title">Don 3B Radio</h1>
+    <p>Beats para escuchar mientras lees, trabajas o dejas que llegue la próxima idea.</p>
+    <p>Pistas no masterizadas o mezcladas; disculpa los inconvenientes, xd.</p>
   </header>
 
   <div class="radio_player" data-radio-player>
-    <div class="radio_deck-heading"><span>EN TUS AUDÍFONOS</span><span data-radio-count></span></div>
     <div class="radio_screen">
+      <img class="radio_cover" data-radio-cover alt="">
       <div class="radio_cover-placeholder" data-radio-placeholder aria-hidden="true">
-        <div class="radio_record"></div><span>DON 3B / BEAT TAPES</span>
+        <span>DON 3B</span>
         <strong data-radio-placeholder-title></strong>
       </div>
-      <img class="radio_cover" data-radio-cover alt="" hidden>
-      <button class="radio_play" data-radio-play type="button" aria-label="Reproducir pista" disabled><span aria-hidden="true">▶</span></button>
-      <div class="radio_video" data-radio-video hidden></div>
+      <button class="radio_play" data-radio-play type="button" aria-label="Reproducir beat">
+        <span aria-hidden="true">▶</span>
+      </button>
+      <div class="radio_video" data-radio-video></div>
+      <span class="radio_frequency">DON3B · 93.7 FM</span>
     </div>
-    <div class="radio_info">
-      <p class="radio_style" data-radio-style>SELECCIÓN INDEPENDIENTE</p>
-      <h2 data-radio-title>Tu próxima vibra empieza aquí</h2>
-      <div class="radio_byline"><span data-radio-artist>Don 3B</span><a data-radio-link target="_blank" rel="noopener noreferrer" hidden>Abrir original ↗</a></div>
+
+    <div class="radio_info" aria-live="polite">
+      <span class="radio_count" data-radio-count></span>
+      <p class="radio_style" data-radio-style></p>
+      <h2 data-radio-title></h2>
+      <p class="radio_artist" data-radio-artist></p>
     </div>
-    <div class="radio_transport">
-      <div class="radio_progress" data-radio-progress hidden>
-        <label class="radio_sr-only" for="radio-seek">Posición de la pista</label>
-        <input id="radio-seek" data-radio-seek type="range" min="0" max="100" value="0" step="1" disabled>
-        <div><span data-radio-elapsed>0:00</span><span data-radio-duration>0:00</span></div>
-      </div>
-      <div class="radio_controls" aria-label="Controles del reproductor">
-        <button type="button" data-radio-prev aria-label="Pista anterior" disabled><span aria-hidden="true">←</span> Anterior</button>
-        <button class="radio_primary" type="button" data-radio-main-play disabled>▶ Reproducir</button>
-        <button type="button" data-radio-next aria-label="Siguiente pista" disabled>Siguiente <span aria-hidden="true">→</span></button>
-      </div>
-      <p class="radio_status" data-radio-status role="status">Preparando la selección…</p>
+
+    <div class="radio_controls" aria-label="Controles del reproductor">
+      <button type="button" data-radio-prev aria-label="Beat anterior">← <span>PREV</span></button>
+      <button type="button" data-radio-main-play aria-label="Reproducir beat"><span aria-hidden="true">▶</span> PLAY</button>
+      <button type="button" data-radio-next aria-label="Siguiente beat"><span>NEXT</span> →</button>
     </div>
   </div>
 
-  <div class="radio_up-next"><div><span class="radio_label">A CONTINUACIÓN</span><strong data-radio-up-next>Explora la selección</strong></div><label class="radio_autoplay"><input data-radio-autoplay type="checkbox" checked> Continuar al terminar</label></div>
-
-  <section class="radio_queue" aria-labelledby="radio-queue-title">
-    <div class="radio_queue-heading"><div><p class="radio_eyebrow">LA SELECCIÓN</p><h2 id="radio-queue-title">En rotación<span>.</span></h2></div><span>TRAP · DON 3B</span></div>
+  <div class="radio_queue">
+    <div class="radio_queue-heading">
+      <h2>En rotación</h2>
+      <span>{{ site.data.radio | size }} beat{% if site.data.radio.size != 1 %}s{% endif %}</span>
+    </div>
     <ol data-radio-queue></ol>
-    <noscript><p>Activa JavaScript para usar el reproductor, o escucha directamente:</p><ul>{% for track in site.data.radio %}<li><a href="{{ track.url | escape }}" target="_blank" rel="noopener noreferrer">{{ track.title | escape }} — {{ track.artist | escape }}</a></li>{% endfor %}</ul></noscript>
-  </section>
-  <footer class="radio_note"><span aria-hidden="true">✳</span><p>Directo del estudio.<br><span>Algunas pistas están en proceso de mezcla y masterización. Así suenan las ideas antes de estar terminadas.</span></p></footer>
+  </div>
 </section>
 
 <script id="radio-tracks" type="application/json">{{ site.data.radio | jsonify | replace: '</', '<\/' }}</script>

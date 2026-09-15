@@ -1,19 +1,187 @@
-# Agrega aqui los enlaces de tus nuevos beats. El reproductor los mostrara
-# automaticamente en el mismo orden de esta lista.
-- url: "https://www.youtube.com/watch?v=rttBZaLcBVM"
-  title: "AFTER THE GLOW"
-  artist: "Don 3B"
-  style: "Dark Guitar Trap · Don Toliver Type Beat"
-  platform: "youtube"
-
-- url: "https://audiomack.com/lmbmusiclmb/album/there-is-no-way"
-  title: "There is No way!"
-  artist: "Don 3B"
-  style: "Trap"
-  platform: "audiomack"
-
-- url: "https://www.youtube.com/shorts/Y4TMPkI2KOk"
-  title: "Te Pensaba"
-  artist: "Don 3B"
-  style: "Guitar Trap · Amenazzy Type Beat"
-  platform: "youtube"
+# Una sola lista. Cada enlace corresponde a una cancion.
+- url: https://www.youtube.com/watch?v=rttBZaLcBVM
+  title: AFTER THE GLOW
+  artist: Don 3B
+  style: Dark Guitar Trap · Don Toliver Type Beat
+  platform: youtube
+- url: https://audiomack.com/lmbmusiclmb/song/rockguitar
+  title: Rockguitar
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/idontevenknkow
+  title: Idontevenknkow
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/rapp2
+  title: Rapp2
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/there-is-no-way
+  title: Pista no disponible
+  artist: Don 3B
+  style: No disponible en Audiomack
+  platform: audiomack
+  available: false
+- url: https://audiomack.com/lmbmusiclmb/song/elbeatdehoy
+  title: Elbeatdehoy
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/ellbeatdehoylol
+  title: Ellbeatdehoylol
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/armony
+  title: Armony
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/lastnight
+  title: Lastnight
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/untitled
+  title: Untitled
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/guitarrock
+  title: Guitarrock
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/viernes
+  title: Viernes
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/flute
+  title: Flute
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/astrostrike
+  title: Astrostrike
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/holaperdida
+  title: Holaperdida
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/astrobot
+  title: Astrobot
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/ddd
+  title: Ddd
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/litte-one
+  title: Litte One
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/electro
+  title: Electro
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/laspiano
+  title: Laspiano
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/initdetroit
+  title: Initdetroit
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/yeah
+  title: Yeah
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/deetroit
+  title: Deetroit
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/i-got-the-block
+  title: I Got The Block
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/tonay-1
+  title: Tonay 1
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/tonay
+  title: Tonay
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/trapexo
+  title: Trapexo
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/trap909
+  title: Trap909
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/lafinal
+  title: Lafinal
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/bachatafinalsinlegavoz
+  title: Bachatafinalsinlegavoz
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/bachataelianvoz-1
+  title: Bachataelianvoz 1
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/bachataelian
+  title: Bachataelian
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/bachatasinvoz
+  title: Bachatasinvoz
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/diparate
+  title: Diparate
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/dike
+  title: Dike
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://audiomack.com/lmbmusiclmb/song/rapmetar
+  title: RAPMETAR
+  artist: Don 3B
+  style: Trap
+  platform: audiomack
+- url: https://www.youtube.com/shorts/Y4TMPkI2KOk
+  title: Te Pensaba
+  artist: Don 3B
+  style: Guitar Trap · Amenazzy Type Beat
+  platform: youtube
