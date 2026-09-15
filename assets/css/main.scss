@@ -565,6 +565,41 @@ pre code {
   box-shadow: none;
 }
 
+.page .radio_cover[hidden] {
+  display: none;
+}
+
+.radio_cover-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  color: #fff;
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255, 190, 91, 0.78), transparent 23%),
+    linear-gradient(135deg, #e86431 0%, #8d204d 48%, #171329 100%);
+}
+
+.radio_cover-placeholder[hidden] {
+  display: none;
+}
+
+.radio_cover-placeholder span {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+}
+
+.radio_cover-placeholder strong {
+  max-width: 75%;
+  margin-top: 0.2rem;
+  font-size: clamp(1.8rem, 7vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
 .radio_play {
   position: absolute;
   z-index: 2;
