@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ 'assets/css/main.css' | relative_url }}" media="all">
+  <link rel="stylesheet" href="{{ 'assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}" media="all">
   <link rel="stylesheet" href="{{ 'assets/css/colibri.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/garden.css' | relative_url }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">

@@ -33,7 +33,7 @@
 .radio_play:hover { background: #b43d1c; }
 .radio_video, .radio_video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .radio_video { z-index: 3; }
-.radio_player[data-platform="audiomack"] .radio_screen { min-height: 340px; }
+.radio_player[data-platform="audiomack"] .radio_screen { min-height: 400px; }
 .radio_info { padding: 1.5rem 1.5rem .9rem; }
 .page .radio_style { margin: 0 0 .45rem; color: #e8aa77; font: .65rem/1.6 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .06em; }
 .page .radio_info h2 { margin: 0 0 .7rem; color: var(--radio-paper); font-size: clamp(1.6rem, 5vw, 2.5rem); letter-spacing: -.05em; overflow-wrap: anywhere; }

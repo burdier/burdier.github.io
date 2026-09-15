@@ -9,7 +9,7 @@ permalink: /radio/
     <p class="radio_eyebrow"><span aria-hidden="true"></span> EL SONIDO DE DON 3B</p>
     <h1 id="radio-title">Dale play.<br><em>Quédate un rato.</em></h1>
     <p>Beats para bajar el ruido y entrar en tu zona. De mi estudio a tus audífonos.</p>
-    <div class="radio_station"><span>DON 3B RADIO</span><span>TRAP / GUITARRAS / IDEAS</span></div>
+    <div class="radio_station"><span>DON 3B RADIO</span><span>TRAP / DON 3B</span></div>
   </header>
 
   <div class="radio_player" data-radio-player>
@@ -46,7 +46,7 @@ permalink: /radio/
   <div class="radio_up-next"><div><span class="radio_label">A CONTINUACIÓN</span><strong data-radio-up-next>Explora la selección</strong></div><label class="radio_autoplay"><input data-radio-autoplay type="checkbox" checked> Continuar al terminar</label></div>
 
   <section class="radio_queue" aria-labelledby="radio-queue-title">
-    <div class="radio_queue-heading"><div><p class="radio_eyebrow">LA SELECCIÓN</p><h2 id="radio-queue-title">En rotación<span>.</span></h2></div><span>{% assign albums = site.data.radio | where: "type", "album" | size %}{% assign singles = site.data.radio.size | minus: albums %}{{ singles }} pista{% if singles != 1 %}s{% endif %} · {{ albums }} álbum{% if albums != 1 %}es{% endif %}</span></div>
+    <div class="radio_queue-heading"><div><p class="radio_eyebrow">LA SELECCIÓN</p><h2 id="radio-queue-title">En rotación<span>.</span></h2></div><span>TRAP · DON 3B</span></div>
     <ol data-radio-queue></ol>
     <noscript><p>Activa JavaScript para usar el reproductor, o escucha directamente:</p><ul>{% for track in site.data.radio %}<li><a href="{{ track.url | escape }}" target="_blank" rel="noopener noreferrer">{{ track.title | escape }} — {{ track.artist | escape }}</a></li>{% endfor %}</ul></noscript>
   </section>
@@ -54,4 +54,4 @@ permalink: /radio/
 </section>
 
 <script id="radio-tracks" type="application/json">{{ site.data.radio | jsonify | replace: '</', '<\/' }}</script>
-<script src="{{ '/assets/js/radio.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/radio.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

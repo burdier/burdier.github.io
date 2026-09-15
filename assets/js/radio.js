@@ -25,7 +25,6 @@
   }
 
   const platform = (track) => new URL(track.url).hostname.replace(/^www\./, '') === 'audiomack.com' ? 'audiomack' : 'youtube';
-  const isAlbum = (track) => track.type === 'album' || new URL(track.url).pathname.includes('/album/');
   const platformLabel = (track) => platform(track) === 'youtube' ? 'YouTube' : 'Audiomack';
   const videoId = (track) => {
     const url = new URL(track.url);
@@ -52,14 +51,13 @@
     state = next;
     el.player.dataset.state = state;
     el.status.textContent = message;
-    const labels = { idle: '▶ Reproducir', loading: 'Cargando…', playing: 'Ⅱ Pausar', paused: '▶ Continuar', embedded: 'Cerrar reproductor', error: '↻ Reintentar' };
+    const labels = { idle: '▶ Reproducir', loading: 'Cargando…', playing: 'Ⅱ Pausar', paused: '▶ Continuar', embedded: '■ Detener', error: '↻ Reintentar' };
     el['main-play'].textContent = labels[state];
-    if (state === 'idle' && isAlbum(tracks[index])) el['main-play'].textContent = '▶ Abrir álbum';
     el['main-play'].disabled = state === 'loading';
     el.play.disabled = state === 'loading';
     queueButtons.forEach((button, i) => {
       button.querySelector('.radio_queue-play').textContent = i === index && state === 'playing' ? 'Ⅱ' : '▶';
-      button.setAttribute('aria-label', `${i === index && state === 'playing' ? 'Pausar' : 'Escuchar'} ${isAlbum(tracks[i]) ? 'álbum ' : ''}${tracks[i].title}`);
+      button.setAttribute('aria-label', `${i === index && state === 'playing' ? 'Pausar' : 'Escuchar'} ${tracks[i].title}`);
     });
   };
   const clearPlayer = () => {
@@ -142,23 +140,23 @@
     }
     el.cover.alt = `Portada de ${track.title}`;
     el.count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(tracks.length).padStart(2, '0')}`;
-    el.style.textContent = `${isAlbum(track) ? 'ÁLBUM' : 'PISTA'} · ${track.style || platformLabel(track)}`;
+    el.style.textContent = track.style || 'Trap';
     el.title.textContent = track.title;
     el.artist.textContent = track.artist || 'Don 3B';
     el.link.href = track.url;
     el.link.hidden = false;
     el.link.textContent = `Abrir en ${platformLabel(track)} ↗`;
     el.link.setAttribute('aria-label', `Abrir ${track.title} en ${platformLabel(track)} (nueva pestaña)`);
-    el.play.setAttribute('aria-label', `${isAlbum(track) ? 'Abrir álbum' : 'Reproducir'} ${track.title}`);
+    el.play.setAttribute('aria-label', `Reproducir ${track.title}`);
     el.progress.hidden = provider !== 'youtube';
     el.prev.disabled = el.next.disabled = tracks.length < 2;
     const upcoming = tracks[(index + 1) % tracks.length];
-    el['up-next'].textContent = tracks.length > 1 ? `${upcoming.title}${isAlbum(upcoming) ? ' · Álbum' : ''}` : 'Último lanzamiento de la selección';
+    el['up-next'].textContent = tracks.length > 1 ? upcoming.title : 'Sigue en sintonía';
     queueButtons.forEach((button, i) => {
       button.classList.toggle('is-current', i === index);
       if (i === index) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
     });
-    setState('idle', provider === 'audiomack' ? 'Explora las canciones y controla la reproducción dentro de Audiomack.' : 'Dale play cuando estés listo.');
+    setState('idle', provider === 'audiomack' ? 'Dale play y deja correr el trap.' : 'Dale play cuando estés listo.');
   };
   const move = (direction) => { render(index + direction); play(); };
   const play = async () => {
@@ -176,13 +174,14 @@
     if (platform(track) === 'audiomack') {
       const iframe = document.createElement('iframe');
       const url = new URL(track.url);
-      iframe.src = `https://audiomack.com/embed/${url.pathname.replace(/^\/+|\/+$/g, '')}?autoplay=1`;
-      iframe.title = `${isAlbum(track) ? 'Álbum' : 'Pista'}: ${track.title} — ${track.artist}`;
+      const [artist, kind, ...slug] = url.pathname.split('/').filter(Boolean);
+      iframe.src = `https://audiomack.com/embed/${kind === 'album' ? 'album' : 'song'}/${artist}/${slug.join('/')}?autoplay=1`;
+      iframe.title = `${track.title} — ${track.artist}`;
       iframe.allow = 'autoplay; encrypted-media; fullscreen';
       iframe.addEventListener('load', () => {
         if (!isCurrent()) return;
         clearTimeout(readinessTimer);
-        setState('embedded', 'Usa los controles de Audiomack para elegir canciones o pausar. Al terminar, pulsa Siguiente.');
+        setState('embedded', 'Dale play en el reproductor. Las canciones siguen ahí mismo.');
       });
       iframe.addEventListener('error', () => { if (isCurrent()) fail(); });
       readinessTimer = setTimeout(() => { if (isCurrent()) fail(); }, 20000);
@@ -232,7 +231,7 @@
     button.innerHTML = '<span class="radio_queue-number" aria-hidden="true"></span><span class="radio_queue-copy"><strong></strong><small></small></span><span class="radio_queue-play" aria-hidden="true">▶</span>';
     button.querySelector('.radio_queue-number').textContent = String(i + 1).padStart(2, '0');
     button.querySelector('strong').textContent = track.title;
-    button.querySelector('small').textContent = `${isAlbum(track) ? 'Álbum' : 'Pista'} · ${platformLabel(track)} · ${track.artist || 'Don 3B'}`;
+    button.querySelector('small').textContent = `${track.artist || 'Don 3B'} · ${track.style || 'Trap'}`;
     button.addEventListener('click', () => {
       if (i === index && state === 'embedded') { el.video.querySelector('iframe')?.focus(); return; }
       if (i !== index) render(i);
