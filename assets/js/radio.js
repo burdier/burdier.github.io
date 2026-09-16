@@ -35,6 +35,7 @@
     queueToggle: player.querySelector('[data-radio-queue-toggle]'),
     queueClose: document.querySelector('[data-radio-queue-close]'),
     queueBackdrop: document.querySelector('[data-radio-queue-backdrop]'),
+    queueSearch: document.querySelector('[data-radio-queue-search]'),
     queuePrevious: document.querySelector('[data-radio-queue-prev]'),
     queueNext: document.querySelector('[data-radio-queue-next]'),
     queuePage: document.querySelector('[data-radio-queue-page]')
@@ -44,9 +45,16 @@
   audio.preload = 'metadata';
   let currentIndex = 0;
   let queuePage = 0;
-  let pageSize = window.matchMedia('(max-width: 760px)').matches ? 5 : 6;
+  const pageSize = 5;
+  let filteredTrackIndexes = tracks.map((_, index) => index);
 
-  const pageCount = () => Math.ceil(tracks.length / pageSize);
+  const pageCount = () => Math.max(1, Math.ceil(filteredTrackIndexes.length / pageSize));
+
+  const normalizeText = (value) => value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
 
   const setQueueOpen = (open) => {
     elements.queuePanel.classList.toggle('is-open', open);
@@ -78,11 +86,23 @@
     queuePage = (queuePage + pages) % pages;
     const start = queuePage * pageSize;
     const fragment = document.createDocumentFragment();
-    tracks.slice(start, start + pageSize).forEach((track, offset) => {
-      fragment.append(makeQueueItem(track, start + offset));
-    });
+    const visibleIndexes = filteredTrackIndexes.slice(start, start + pageSize);
+    if (visibleIndexes.length) {
+      visibleIndexes.forEach((trackIndex) => {
+        fragment.append(makeQueueItem(tracks[trackIndex], trackIndex));
+      });
+    } else {
+      const empty = document.createElement('li');
+      empty.className = 'radio_queue-empty';
+      empty.textContent = 'No encontré esa pista.';
+      fragment.append(empty);
+    }
     elements.queue.replaceChildren(fragment);
-    elements.queuePage.textContent = `${queuePage + 1} / ${pages}`;
+    elements.queuePage.textContent = filteredTrackIndexes.length
+      ? `${queuePage + 1} / ${pages}`
+      : '0 resultados';
+    elements.queuePrevious.disabled = filteredTrackIndexes.length === 0;
+    elements.queueNext.disabled = filteredTrackIndexes.length === 0;
     setPlayingState(!audio.paused);
   };
 
@@ -120,7 +140,8 @@
     elements.previous.disabled = tracks.length < 2;
     elements.next.disabled = tracks.length < 2;
 
-    queuePage = Math.floor(currentIndex / pageSize);
+    const filteredPosition = filteredTrackIndexes.indexOf(currentIndex);
+    if (filteredPosition >= 0) queuePage = Math.floor(filteredPosition / pageSize);
     renderQueue();
     elements.queue.querySelectorAll('button').forEach((button) => {
       const current = Number(button.dataset.trackIndex) === currentIndex;
@@ -163,18 +184,21 @@
     queuePage++;
     renderQueue();
   });
+  elements.queueSearch.addEventListener('input', () => {
+    const query = normalizeText(elements.queueSearch.value);
+    filteredTrackIndexes = tracks.reduce((matches, track, index) => {
+      const searchable = normalizeText(`${track.title} ${track.artist || ''} ${track.style || ''}`);
+      if (!query || searchable.includes(query)) matches.push(index);
+      return matches;
+    }, []);
+    queuePage = 0;
+    renderQueue();
+  });
   elements.queueToggle.addEventListener('click', () => setQueueOpen(true));
   elements.queueClose.addEventListener('click', () => setQueueOpen(false));
   elements.queueBackdrop.addEventListener('click', () => setQueueOpen(false));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') setQueueOpen(false);
-  });
-  window.addEventListener('resize', () => {
-    const nextPageSize = window.matchMedia('(max-width: 760px)').matches ? 5 : 6;
-    if (nextPageSize === pageSize) return;
-    pageSize = nextPageSize;
-    queuePage = Math.floor(currentIndex / pageSize);
-    renderQueue();
   });
   window.addEventListener('pagehide', () => audio.pause());
 

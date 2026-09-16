@@ -54,6 +54,10 @@ permalink: /radio/
         <span>{{ site.data.radio | size }} beats</span>
         <button class="radio_queue-close" type="button" data-radio-queue-close aria-label="Cerrar lista">×</button>
       </div>
+      <label class="radio_queue-search">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" data-radio-queue-search placeholder="Buscar pista" autocomplete="off" spellcheck="false">
+      </label>
       <ol data-radio-queue></ol>
       <div class="radio_queue-pages" aria-label="Páginas de la lista">
         <button type="button" data-radio-queue-prev aria-label="Página anterior">←</button>
