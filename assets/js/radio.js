@@ -146,6 +146,7 @@
     const platform = getPlatform(track);
     const videoId = platform === 'youtube' ? getVideoId(track.url) : '';
     stopVideo();
+    player.dataset.format = platform === 'audiomack' && new URL(track.url).pathname.includes('/album/') ? 'album' : 'song';
     elements.placeholderTitle.textContent = track.title;
     elements.placeholder.hidden = platform === 'youtube';
     elements.cover.hidden = platform !== 'youtube';

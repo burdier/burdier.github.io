@@ -803,3 +803,8 @@ pre code {
 .radio [hidden] { display: none !important; }
 .radio_video:not(.is-playing) { display: none; }
 .radio_queue button:disabled { cursor: default; opacity: .5; }
+
+/* Leave room for the album track list, including on mobile. */
+.radio_player[data-format="album"] .radio_screen {
+  min-height: 400px;
+}
