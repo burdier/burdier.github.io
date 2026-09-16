@@ -959,12 +959,33 @@ body.radio-page {
 }
 
 .radio-page .page .radio_cover {
-  padding: clamp(0.4rem, 1.5vw, 1rem);
+  position: absolute;
+  z-index: 1;
+  inset: 0 1.5% 0 auto;
+  width: 52%;
+  padding: clamp(0.6rem, 2vw, 1.4rem);
   object-fit: contain;
-  background:
-    radial-gradient(circle at 50% 54%, rgba(232, 98, 59, 0.22), transparent 34%),
-    #050505;
+  object-position: center;
+  background: transparent;
   image-rendering: pixelated;
+  filter: drop-shadow(0 10px 24px rgba(17, 7, 2, 0.42));
+}
+
+.radio-page .radio_cover-placeholder {
+  z-index: 0;
+  background:
+    radial-gradient(circle at 78% 40%, rgba(255, 190, 91, 0.68), transparent 24%),
+    linear-gradient(135deg, #e86431 0%, #8d204d 48%, #171329 100%);
+}
+
+.radio-page .radio_cover-placeholder span,
+.radio-page .radio_cover-placeholder strong {
+  position: relative;
+  z-index: 2;
+}
+
+.radio-page .radio_cover-placeholder strong {
+  max-width: 55%;
 }
 
 .radio-page .radio_cover-placeholder strong {
