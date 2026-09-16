@@ -11,6 +11,13 @@
   }
   if (!Array.isArray(tracks) || !tracks.length) return;
 
+  // La emisora comienza en una rotación distinta en cada visita y no repite
+  // pistas hasta completar la cola barajada.
+  for (let index = tracks.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [tracks[index], tracks[randomIndex]] = [tracks[randomIndex], tracks[index]];
+  }
+
   const elements = {
     cover: player.querySelector('[data-radio-cover]'),
     placeholder: player.querySelector('[data-radio-placeholder]'),
