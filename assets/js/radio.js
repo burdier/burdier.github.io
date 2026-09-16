@@ -39,6 +39,29 @@
     playedTrackIds = new Set();
   }
 
+  const randomIndexFrom = (indexes) => indexes[Math.floor(Math.random() * indexes.length)];
+  const unplayedIndexes = () => tracks
+    .map((_, index) => index)
+    .filter((index) => !playedTrackIds.has(trackId(tracks[index])));
+
+  // La lista se baraja de nuevo al cargar la página. Elegir siempre la primera
+  // pista de esa lista podía repetir una canción ya escuchada tras recargar.
+  // Conservamos la rotación de la sesión también entre recargas y, al comenzar
+  // un ciclo nuevo, evitamos que su primera pista sea la última del ciclo anterior.
+  let initialIndex = requestedIndex;
+  if (initialIndex < 0) {
+    let available = unplayedIndexes();
+    if (!available.length) {
+      const playedInOrder = [...playedTrackIds];
+      const lastPlayedId = playedInOrder[playedInOrder.length - 1];
+      playedTrackIds.clear();
+      available = tracks
+        .map((_, index) => index)
+        .filter((index) => tracks.length < 2 || trackId(tracks[index]) !== lastPlayedId);
+    }
+    if (available.length) initialIndex = randomIndexFrom(available);
+  }
+
   const elements = {
     cover: player.querySelector('[data-radio-cover]'),
     placeholder: player.querySelector('[data-radio-placeholder]'),
@@ -67,7 +90,7 @@
   const audio = new Audio();
   audio.preload = 'metadata';
   const defaultCover = elements.cover.dataset.defaultCover || '';
-  let currentIndex = requestedIndex >= 0 ? requestedIndex : 0;
+  let currentIndex = initialIndex >= 0 ? initialIndex : 0;
   const playbackHistory = [currentIndex];
   let queuePage = 0;
   const pageSize = 5;
@@ -82,14 +105,14 @@
   };
 
   const markPlayed = (index) => {
-    playedTrackIds.add(trackId(tracks[index]));
+    const id = trackId(tracks[index]);
+    playedTrackIds.delete(id);
+    playedTrackIds.add(id);
     savePlayedTracks();
   };
 
   const nextUnplayedIndex = () => {
-    let available = tracks
-      .map((_, index) => index)
-      .filter((index) => index !== currentIndex && !playedTrackIds.has(trackId(tracks[index])));
+    let available = unplayedIndexes().filter((index) => index !== currentIndex);
 
     if (!available.length) {
       playedTrackIds.clear();
@@ -98,7 +121,7 @@
     }
 
     if (!available.length) return currentIndex;
-    return available[Math.floor(Math.random() * available.length)];
+    return randomIndexFrom(available);
   };
 
   markPlayed(currentIndex);
