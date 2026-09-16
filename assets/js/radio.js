@@ -18,6 +18,19 @@
     [tracks[index], tracks[randomIndex]] = [tracks[randomIndex], tracks[index]];
   }
 
+  const trackId = (track) => {
+    try {
+      return decodeURIComponent(new URL(track.url, window.location.href).pathname.split('/').pop());
+    } catch (_) {
+      return track.title;
+    }
+  };
+
+  const requestedTrack = new URLSearchParams(window.location.search).get('track');
+  const requestedIndex = requestedTrack
+    ? tracks.findIndex((track) => trackId(track).toLowerCase() === requestedTrack.toLowerCase())
+    : -1;
+
   const elements = {
     cover: player.querySelector('[data-radio-cover]'),
     placeholder: player.querySelector('[data-radio-placeholder]'),
@@ -30,6 +43,8 @@
     style: player.querySelector('[data-radio-style]'),
     title: player.querySelector('[data-radio-title]'),
     artist: player.querySelector('[data-radio-artist]'),
+    share: player.querySelector('[data-radio-share]'),
+    shareLabel: player.querySelector('[data-radio-share-label]'),
     queue: document.querySelector('[data-radio-queue]'),
     queuePanel: document.querySelector('[data-radio-queue-panel]'),
     queueToggle: player.querySelector('[data-radio-queue-toggle]'),
@@ -43,7 +58,7 @@
 
   const audio = new Audio();
   audio.preload = 'metadata';
-  let currentIndex = 0;
+  let currentIndex = requestedIndex >= 0 ? requestedIndex : 0;
   let queuePage = 0;
   const pageSize = 5;
   let filteredTrackIndexes = tracks.map((_, index) => index);
@@ -55,6 +70,56 @@
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+
+  const trackUrl = (track) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('track', trackId(track));
+    url.hash = '';
+    return url;
+  };
+
+  const syncTrackUrl = (track) => {
+    window.history.replaceState({}, '', trackUrl(track));
+  };
+
+  const copyTrackUrl = async (url) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+      return;
+    }
+    const input = document.createElement('textarea');
+    input.value = url;
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.append(input);
+    input.select();
+    document.execCommand('copy');
+    input.remove();
+  };
+
+  const shareCurrentTrack = async () => {
+    const track = tracks[currentIndex];
+    const url = trackUrl(track).toString();
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${track.title} · Don 3B Radio`,
+          text: `Escucha ${track.title} en Don 3B Radio`,
+          url
+        });
+      } else {
+        await copyTrackUrl(url);
+        elements.shareLabel.textContent = 'LINK COPIADO';
+        window.setTimeout(() => { elements.shareLabel.textContent = 'COMPARTIR'; }, 1800);
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        await copyTrackUrl(url);
+        elements.shareLabel.textContent = 'LINK COPIADO';
+        window.setTimeout(() => { elements.shareLabel.textContent = 'COMPARTIR'; }, 1800);
+      }
+    }
+  };
 
   const setQueueOpen = (open) => {
     elements.queuePanel.classList.toggle('is-open', open);
@@ -137,8 +202,10 @@
     elements.style.textContent = track.style || 'Trap';
     elements.title.textContent = track.title;
     elements.artist.textContent = track.artist || 'Don 3B';
+    elements.shareLabel.textContent = 'COMPARTIR';
     elements.previous.disabled = tracks.length < 2;
     elements.next.disabled = tracks.length < 2;
+    syncTrackUrl(track);
 
     const filteredPosition = filteredTrackIndexes.indexOf(currentIndex);
     if (filteredPosition >= 0) queuePage = Math.floor(filteredPosition / pageSize);
@@ -176,6 +243,7 @@
   elements.mainPlay.addEventListener('click', play);
   elements.previous.addEventListener('click', () => playAt(currentIndex - 1));
   elements.next.addEventListener('click', () => playAt(currentIndex + 1));
+  elements.share.addEventListener('click', shareCurrentTrack);
   elements.queuePrevious.addEventListener('click', () => {
     queuePage--;
     renderQueue();
@@ -202,5 +270,6 @@
   });
   window.addEventListener('pagehide', () => audio.pause());
 
-  render(0);
+  render(currentIndex);
+  if (requestedIndex >= 0) play();
 })();
