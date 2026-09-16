@@ -958,6 +958,15 @@ body.radio-page {
   padding: clamp(1rem, 3vw, 2.25rem);
 }
 
+.radio-page .page .radio_cover {
+  padding: clamp(0.4rem, 1.5vw, 1rem);
+  object-fit: contain;
+  background:
+    radial-gradient(circle at 50% 54%, rgba(232, 98, 59, 0.22), transparent 34%),
+    #050505;
+  image-rendering: pixelated;
+}
+
 .radio-page .radio_cover-placeholder strong {
   display: -webkit-box;
   max-width: 82%;

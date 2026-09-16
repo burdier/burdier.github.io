@@ -58,6 +58,7 @@
 
   const audio = new Audio();
   audio.preload = 'metadata';
+  const defaultCover = elements.cover.dataset.defaultCover || '';
   let currentIndex = requestedIndex >= 0 ? requestedIndex : 0;
   let queuePage = 0;
   const pageSize = 5;
@@ -193,10 +194,12 @@
     audio.load();
     setPlayingState(false);
 
-    elements.cover.hidden = true;
-    elements.cover.removeAttribute('src');
-    elements.cover.alt = '';
-    elements.placeholder.hidden = false;
+    const cover = track.cover || defaultCover;
+    elements.cover.hidden = !cover;
+    if (cover) elements.cover.src = cover;
+    else elements.cover.removeAttribute('src');
+    elements.cover.alt = cover ? `Portada de ${track.title}` : '';
+    elements.placeholder.hidden = Boolean(cover);
     elements.placeholderTitle.textContent = track.title;
     elements.count.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(tracks.length).padStart(2, '0')}`;
     elements.style.textContent = track.style || 'Trap';
