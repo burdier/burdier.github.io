@@ -1,0 +1,277 @@
+:root {
+  color-scheme: dark;
+  --bg: #100f0e;
+  --panel: #1c1917;
+  --panel-2: #25211e;
+  --line: #3c342d;
+  --text: #f7eee3;
+  --muted: #a99b8c;
+  --orange: #ef653b;
+  --pink: #9d2455;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 780px;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 12% 0, rgba(239, 101, 59, .16), transparent 30rem),
+    var(--bg);
+}
+
+button,
+input { font: inherit; }
+
+button { cursor: pointer; }
+
+.app {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  width: min(1480px, 100%);
+  height: 100%;
+  margin: auto;
+  padding: 20px;
+}
+
+.topbar,
+.toolbar,
+.commit-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  background: rgba(28, 25, 23, .94);
+}
+
+.topbar {
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 12px 12px 0 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand img {
+  width: 72px;
+  height: 56px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.brand p,
+.dialog-heading p {
+  margin: 0 0 2px;
+  color: var(--orange);
+  font: 700 10px/1.2 Consolas, monospace;
+  letter-spacing: .16em;
+}
+
+.brand p span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 4px rgba(239, 101, 59, .14);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes pulse { 50% { opacity: .35; transform: scale(.72); } }
+
+h1,
+h2 { margin: 0; letter-spacing: -.045em; }
+h1 { font-size: 26px; }
+
+.top-actions { display: flex; gap: 8px; }
+
+.button,
+.icon-button {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  background: var(--panel-2);
+  font-weight: 750;
+}
+
+.button {
+  min-height: 40px;
+  padding: 0 15px;
+}
+
+.button:hover { border-color: var(--orange); }
+.button:disabled { cursor: wait; opacity: .55; }
+.button.primary { border-color: var(--orange); color: white; background: var(--orange); }
+.button.primary:hover { background: #cf4821; }
+.button.secondary { background: transparent; }
+.button.add { margin-left: auto; }
+.button.wide { width: 100%; }
+
+.toolbar {
+  padding: 10px 14px;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.search {
+  display: grid;
+  grid-template-columns: auto minmax(300px, 560px);
+  gap: 8px;
+  align-items: center;
+  flex: 1;
+  color: var(--muted);
+}
+
+.search input,
+.commit-row input,
+.track input,
+dialog input {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  outline: 0;
+  color: var(--text);
+  background: #141210;
+}
+
+.search input,
+.commit-row input { height: 38px; padding: 0 11px; }
+.search input:focus,
+.commit-row input:focus,
+.track input:focus,
+dialog input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(239, 101, 59, .12); }
+
+.track-count,
+.state {
+  color: var(--muted);
+  font: 700 11px/1 Consolas, monospace;
+  white-space: nowrap;
+}
+
+.commit-row {
+  padding: 9px 14px;
+  border-bottom: 0;
+  font-size: 12px;
+}
+
+.commit-row label { color: var(--muted); font-weight: 700; }
+.commit-row input { flex: 1; }
+.state[data-state="dirty"] { color: #ffbd69; }
+.state[data-state="busy"] { color: #81c7d4; }
+.state[data-state="error"] { color: #ff7777; }
+
+.tracks {
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 0 0 12px 12px;
+  background: rgba(20, 18, 16, .94);
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 76px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.track:hover { background: rgba(239, 101, 59, .035); }
+
+.number {
+  color: var(--muted);
+  font: 700 11px/1 Consolas, monospace;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(170px, .8fr) minmax(320px, 1.5fr) minmax(120px, .55fr) minmax(100px, .4fr);
+  gap: 8px;
+}
+
+.fields label,
+dialog label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font: 700 9px/1 Consolas, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.track input {
+  width: 100%;
+  height: 34px;
+  padding: 0 9px;
+  font-size: 12px;
+}
+
+.delete {
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #d89a8b;
+  background: transparent;
+  font: 700 10px/1 Consolas, monospace;
+}
+
+.delete:hover { border-color: #8f3d31; color: #fff; background: #6f2d24; }
+
+.empty {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+  color: var(--muted);
+  font: 12px Consolas, monospace;
+}
+
+dialog {
+  width: min(520px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .7);
+}
+
+dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(4px); }
+dialog form { display: grid; gap: 14px; padding: 20px; }
+dialog input { height: 42px; padding: 0 11px; font-size: 14px; text-transform: none; letter-spacing: normal; }
+.dialog-heading { display: flex; align-items: center; justify-content: space-between; }
+.dialog-heading h2 { font-size: 24px; }
+.icon-button { width: 38px; height: 38px; font-size: 22px; }
+.two-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: 480px;
+  padding: 12px 14px;
+  transform: translateY(30px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  visibility: hidden;
+  opacity: 0;
+  color: var(--text);
+  background: #28231f;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, .5);
+  transition: 180ms ease;
+}
+
+.toast.is-visible { transform: translateY(0); visibility: visible; opacity: 1; }
+.toast button { margin-left: 10px; border: 0; color: var(--orange); background: transparent; font-weight: 800; }
+
+@media (prefers-reduced-motion: reduce) {
+  .brand p span { animation: none; }
+}

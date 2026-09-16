@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Don 3B Radio Manager</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/cover.png" alt="" width="72" height="56">
+        <div>
+          <p><span></span> CONTROL LOCAL</p>
+          <h1>Radio Manager</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="button secondary" id="save-button" type="button">Guardar archivo</button>
+        <button class="button primary" id="publish-button" type="button">Commit + Push</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Herramientas">
+      <label class="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="Buscar pista, artista o URL" autocomplete="off">
+      </label>
+      <span class="track-count" id="track-count">0 pistas</span>
+      <button class="button add" id="add-button" type="button">+ Nueva pista</button>
+    </section>
+
+    <section class="commit-row">
+      <label for="commit-message">Mensaje del commit</label>
+      <input id="commit-message" maxlength="120" value="Actualiza la emisora desde Radio Manager">
+      <span class="state" id="state" data-state="clean">Cargando…</span>
+    </section>
+
+    <section class="tracks" id="tracks" aria-live="polite"></section>
+  </main>
+
+  <dialog id="add-dialog">
+    <form id="add-form">
+      <div class="dialog-heading">
+        <div>
+          <p>NUEVA PISTA</p>
+          <h2>Añadir a la emisora</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-dialog aria-label="Cerrar">×</button>
+      </div>
+      <label>Título<input name="title" required placeholder="Nombre de la pista"></label>
+      <label>URL de Cloudflare<input name="url" type="url" required placeholder="https://…/cancion.wav"></label>
+      <div class="two-fields">
+        <label>Artista<input name="artist" value="Don 3B"></label>
+        <label>Estilo<input name="style" value="Trap"></label>
+      </div>
+      <button class="button primary wide" type="submit">Añadir pista</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
