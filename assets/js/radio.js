@@ -31,6 +31,14 @@
     ? tracks.findIndex((track) => trackId(track).toLowerCase() === requestedTrack.toLowerCase())
     : -1;
 
+  const playedStorageKey = 'don3b-radio-played-v1';
+  let playedTrackIds = new Set();
+  try {
+    playedTrackIds = new Set(JSON.parse(window.sessionStorage.getItem(playedStorageKey) || '[]'));
+  } catch (_) {
+    playedTrackIds = new Set();
+  }
+
   const elements = {
     cover: player.querySelector('[data-radio-cover]'),
     placeholder: player.querySelector('[data-radio-placeholder]'),
@@ -60,9 +68,40 @@
   audio.preload = 'metadata';
   const defaultCover = elements.cover.dataset.defaultCover || '';
   let currentIndex = requestedIndex >= 0 ? requestedIndex : 0;
+  const playbackHistory = [currentIndex];
   let queuePage = 0;
   const pageSize = 5;
   let filteredTrackIndexes = tracks.map((_, index) => index);
+
+  const savePlayedTracks = () => {
+    try {
+      window.sessionStorage.setItem(playedStorageKey, JSON.stringify([...playedTrackIds]));
+    } catch (_) {
+      // La rotación sigue funcionando aunque el navegador bloquee sessionStorage.
+    }
+  };
+
+  const markPlayed = (index) => {
+    playedTrackIds.add(trackId(tracks[index]));
+    savePlayedTracks();
+  };
+
+  const nextUnplayedIndex = () => {
+    let available = tracks
+      .map((_, index) => index)
+      .filter((index) => index !== currentIndex && !playedTrackIds.has(trackId(tracks[index])));
+
+    if (!available.length) {
+      playedTrackIds.clear();
+      markPlayed(currentIndex);
+      available = tracks.map((_, index) => index).filter((index) => index !== currentIndex);
+    }
+
+    if (!available.length) return currentIndex;
+    return available[Math.floor(Math.random() * available.length)];
+  };
+
+  markPlayed(currentIndex);
 
   const pageCount = () => Math.max(1, Math.ceil(filteredTrackIndexes.length / pageSize));
 
@@ -206,7 +245,7 @@
     elements.title.textContent = track.title;
     elements.artist.textContent = track.artist || 'Don 3B';
     elements.shareLabel.textContent = 'COMPARTIR';
-    elements.previous.disabled = tracks.length < 2;
+    elements.previous.disabled = playbackHistory.length < 2;
     elements.next.disabled = tracks.length < 2;
     syncTrackUrl(track);
 
@@ -233,19 +272,31 @@
     }
   };
 
-  const playAt = async (index) => {
-    render(index);
+  const playAt = async (index, remember = true) => {
+    const normalizedIndex = (index + tracks.length) % tracks.length;
+    if (remember && normalizedIndex !== currentIndex) playbackHistory.push(normalizedIndex);
+    markPlayed(normalizedIndex);
+    render(normalizedIndex);
+    await play();
+  };
+
+  const playPrevious = async () => {
+    if (playbackHistory.length < 2) return;
+    playbackHistory.pop();
+    const previousIndex = playbackHistory[playbackHistory.length - 1];
+    markPlayed(previousIndex);
+    render(previousIndex);
     await play();
   };
 
   audio.addEventListener('play', () => setPlayingState(true));
   audio.addEventListener('pause', () => setPlayingState(false));
-  audio.addEventListener('ended', () => playAt(currentIndex + 1));
+  audio.addEventListener('ended', () => playAt(nextUnplayedIndex()));
   audio.addEventListener('error', () => setPlayingState(false));
   elements.coverPlay.addEventListener('click', play);
   elements.mainPlay.addEventListener('click', play);
-  elements.previous.addEventListener('click', () => playAt(currentIndex - 1));
-  elements.next.addEventListener('click', () => playAt(currentIndex + 1));
+  elements.previous.addEventListener('click', playPrevious);
+  elements.next.addEventListener('click', () => playAt(nextUnplayedIndex()));
   elements.share.addEventListener('click', shareCurrentTrack);
   elements.queuePrevious.addEventListener('click', () => {
     queuePage--;
