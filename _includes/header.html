@@ -10,7 +10,7 @@
 
   <nav class="nav" aria-label="Navegación principal">
     <a href="{{ '/' | relative_url }}">Artículos</a>
-    <a href="{{ '/radio/' | relative_url }}">Radio</a>
+    <a class="nav_radio-link" href="{{ '/radio/' | relative_url }}"><span class="nav_radio-live" aria-hidden="true"></span>Radio</a>
     {% if site.user.aboutme %}
     <a href="{{ '/aboutme.html' | relative_url }}">About</a>
     {% endif %}
